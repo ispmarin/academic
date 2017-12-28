@@ -1,0 +1,89 @@
+\documentclass[a4paper,12pt,normaltoc,twoside,openright]{abntex2}
+
+\usepackage[utf8]{inputenc}
+
+%   \usepackage{fancyhdr}
+%  \fancyhf{}
+%  \rhead[\thepage]{\thepage}
+%  \lhead[]{\thepage}
+
+ %\setlength{\headheight}{15pt} % defines the height of the header. Se nao tiver da warning
+ %\renewcommand{\headrulewidth}{2.0pt}
+%\fancyfoot[EL,OR]{\thepage}
+
+%\usepackage{geometry}
+%\geometry{a4paper,top=3cm,left=3cm,bottom=2cm,right=2cm}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[portuguese,brazil,brazilian]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+%\usepackage{fullpage}
+%\usepackage[stable]{footmisc}
+\usepackage{url}
+\usepackage{pdflscape}
+\usepackage{rotating}
+\usepackage{appendix}
+\usepackage{color}
+\usepackage{microtype}
+\usepackage{tabela-simbolos}
+\usepackage{subfigure}
+\usepackage[num,abnt-etal-list=0,abnt-etal-text=it,abnt-emphasize=it,recuo=0.0cm,bibjustif,abnt-last-names=abnt]{abntcite}
+
+
+\newcommand{\ld}{\textit{line doublet }}
+%\newcommand{\field}[1]{\mathbb{#1}}
+\newcommand{\pz}{\frac{\partial}{\partial z}} 
+\newcommand{\pzb}{\frac{\partial}{\partial \bar{z}}} 
+\newcommand{\zs}{(\bar{z},z)} 
+
+\hyphenation{su-fi-ci-en-te-men-te}
+\hyphenation{Ban-ca}
+\usepackage{lastpage}
+
+\usepackage{float}
+
+% \floatstyle{boxed} 
+% \restylefloat{figure}
+
+% ++++++++++++++++++++++++++++++++++++++++++==
+% LEGENDAS
+\usepackage[format=hang,font={footnotesize,singlespacing},labelfont=bf,labelsep=endash]{caption}
+
+\onehalfspacing  
+\begin{document}
+
+\include{folha_rosto}
+
+\include{resumos}
+
+\include{agradecimentos}
+
+\tableofcontents
+\listoffigures
+%\newpage
+
+
+%\include{agradecimentos}
+\include{introducao}
+\include{formacao}
+\include{bolsas}
+\include{profissional}
+\include{didatica}
+\include{projetos}
+\include{producao}
+\include{congressos}
+\include{associacao}
+\include{distincoes}
+
+%\bibliographystyle{abnt-num}
+\bibliography{bibliografia/bibliografia}
+
+\appendix
+
+\include{app_hidrologia}
+
+
+
+\end{document}

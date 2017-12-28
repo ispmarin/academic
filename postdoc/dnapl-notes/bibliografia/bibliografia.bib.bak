@@ -1,0 +1,231 @@
+% This file was created with JabRef 2.9.1.
+% Encoding: UTF8
+
+@BOOK{appelo,
+  title = {Geochemistry, groundwater and pollution},
+  publisher = {CRC Press},
+  year = {2010},
+  author = {C. A. J. Appelo and D. Postma},
+  owner = {Administrateur},
+  quality = {1},
+  timestamp = {2013.01.10}
+}
+
+@ELECTRONIC{shapely_web,
+  author = {Sean Gillies},
+  month = {July},
+  year = {2012},
+  title = {The Shapely User Manual},
+  language = {English},
+  note = {This document explains how to use the Shapely Python package for
+	computational geometry.},
+  url = {http://toblerity.github.com/shapely/manual.html},
+  owner = {ispmarin},
+  timestamp = {2012.08.20}
+}
+
+@ELECTRONIC{opengis_sfa_1,
+  author = {{Open Geospatial Consortium}},
+  year = {2010},
+  title = {OpenGIS Implementation Standard for Geographic Information - Simple
+	feture access - Part 1: Common architecture},
+  language = {English},
+  organization = {Open Geospatial Consortium},
+  note = {Version 1.2.1},
+  url = {http://www.opengeospatial.org/standards/sfa},
+  owner = {ispmarin},
+  timestamp = {2012.08.20}
+}
+
+@ELECTRONIC{opengis_sfa_2,
+  author = {{Open Geospatial Consortium}},
+  year = {2010},
+  title = {OpenGIS Implementation Standard for Geographic Information - Simple
+	feture access - Part 2: SQL option},
+  language = {English},
+  organization = {Open Geospatial Consortium},
+  note = {Version 1.2.1},
+  url = {http://www.opengeospatial.org/standards/sfa},
+  owner = {ispmarin},
+  timestamp = {2012.08.20}
+}
+
+@ARTICLE{schirmer_relative-least-squares_1999,
+  author = {Schirmer, Mario and Butler, Barbara J. and Roy, James W. and Frind,
+	Emil O. and Barker, James F.},
+  title = {A relative-least-squares technique to determine unique Monod kinetic
+	parameters of {BTEX} compounds using batch experiments},
+  journal = {Journal of Contaminant Hydrology},
+  year = {1999},
+  volume = {37},
+  pages = {69--86},
+  month = apr,
+  abstract = {An analysis of aerobic m-xylene biodegradation kinetics was performed
+	on the results of laboratory batch microcosms. A modified version
+	of the computer model {BIO3D} was used to determine the Monod kinetic
+	parameters, kmax (maximum utilization rate) and {KS} (half-utilization
+	constant), as well as the Haldane inhibition concentration, {KI},
+	for pristine Borden aquifer material. The proposed method allows
+	for substrate degradation under microbial growth conditions. The
+	problem of non-uniqueness of the calculated parameters was overcome
+	by using several different initial substrate concentrations. With
+	a relative-least-squares technique, unique kinetic degradation parameters
+	were obtained. Calculation of the microbial yield, Y, based on microbial
+	counts from the beginning and the end of the experiments was crucial
+	for reducing the number of unknowns in the system and therefore for
+	the accurate determination of the kinetic degradation parameters.
+	The kinetic parameters obtained in the present study were found to
+	agree well with values reported in the literature.},
+  doi = {10.1016/S0169-7722(98)00159-4},
+  file = {ScienceDirect Full Text PDF:C:\Users\ivsip\Dropbox\zotero\storage\6R2N9DT6\Schirmer et al. - 1999 - A relative-least-squares technique to determine un.pdf:application/pdf},
+  issn = {0169-7722},
+  keywords = {Aerobic biodegradation, Microbial yield, Modelling, Monod kinetics,
+	m-Xylene, Parameter estimation},
+  owner = {ivsip},
+  timestamp = {2013.01.15},
+  url = {http://www.sciencedirect.com/science/article/pii/S0169772298001594},
+  urldate = {2013-01-15}
+}
+
+@ARTICLE{schirmer_biodegradation_2000,
+  author = {Schirmer, Mario and Molson, John W. and Frind, Emil O. and Barker,
+	James F.},
+  title = {Biodegradation modelling of a dissolved gasoline plume applying independent
+	laboratory and field parameters},
+  journal = {Journal of Contaminant Hydrology},
+  year = {2000},
+  volume = {46},
+  pages = {339--374},
+  number = {3â€“4},
+  abstract = {Biodegradation of organic contaminants in groundwater is a microscale
+	process which is often observed on scales of 100s of metres or larger.
+	Unfortunately, there are no known equivalent parameters for characterizing
+	the biodegradation process at the macroscale as there are, for example,
+	in the case of hydrodynamic dispersion. Zero- and first-order degradation
+	rates estimated at the laboratory scale by model fitting generally
+	overpredict the rate of biodegradation when applied to the field
+	scale because limited electron acceptor availability and microbial
+	growth are not considered. On the other hand, field-estimated zero-
+	and first-order rates are often not suitable for predicting plume
+	development because they may oversimplify or neglect several key
+	field scale processes, phenomena and characteristics. This study
+	uses the numerical model {BIO3D} to link the laboratory and field
+	scales by applying laboratory-derived Monod kinetic degradation parameters
+	to simulate a dissolved gasoline field experiment at the Canadian
+	Forces Base ({CFB)} Borden. All input parameters were derived from
+	independent laboratory and field measurements or taken from the literature
+	a priori to the simulations. The simulated results match the experimental
+	results reasonably well without model calibration. A sensitivity
+	analysis on the most uncertain input parameters showed only a minor
+	influence on the simulation results. Furthermore, it is shown that
+	the flow field, the amount of electron acceptor (oxygen) available,
+	and the Monod kinetic parameters have a significant influence on
+	the simulated results. It is concluded that laboratory-derived Monod
+	kinetic parameters can adequately describe field scale degradation,
+	provided all controlling factors are incorporated in the field scale
+	model. These factors include advectiveâ€“dispersive transport of
+	multiple contaminants and electron acceptors and large-scale spatial
+	heterogeneities.},
+  doi = {10.1016/S0169-7722(00)00130-3},
+  file = {ScienceDirect Full Text PDF:C:\Users\ivsip\Dropbox\zotero\storage\TZ8QQTRJ\Schirmer et al. - 2000 - Biodegradation modelling of a dissolved gasoline p.pdf:application/pdf},
+  issn = {0169-7722},
+  keywords = {Aerobic biodegradation, {BTEX}, Field plume, Gasoline, Modelling,
+	Monod kinetics},
+  lccn = {0000},
+  owner = {ivsip},
+  timestamp = {2013.01.15},
+  url = {http://www.sciencedirect.com/science/article/pii/S0169772200001303},
+  urldate = {2012-04-12}
+}
+
+@ELECTRONIC{geos_web,
+  author = {{The Open Source Geospatial Foundation}},
+  year = {2012},
+  title = {Geometry Engine Open Source},
+  language = {English},
+  organization = {{The Open Source Geospatial Foundation}},
+  url = {http://trac.osgeo.org/geos/},
+  owner = {ispmarin},
+  timestamp = {2012.08.20}
+}
+
+@MISC{wikipedia_contributors_simple_2012,
+  author = {{{Wikipedia} contributors}},
+  title = {Simple feature access},
+  month = jun,
+  year = {2012},
+  note = {Page Version {ID:} 495004364},
+  abstract = {Simple feature access {(SFA;} also called {ISO} 19125), is both an
+	{OpenGIS} and {ISO} Standard that specifies a common storage model
+	of geographical data (point, line, polygon, multi-point, multi-line,
+	etc.) using well-known text (or binary). The geometries are also
+	associated with spatial reference systems. The {SFA} also specifies
+	attributes, methods and assertions with the geometries.},
+  copyright = {Creative Commons Attribution-{ShareAlike} License},
+  journal = {Wikipedia, the free encyclopedia},
+  lccn = {0000},
+  owner = {ispmarin},
+  publisher = {Wikimedia Foundation, Inc.},
+  timestamp = {2012.08.18},
+  url = {http://en.wikipedia.org/w/index.php?title=Simple_feature_access&oldid=495004364}
+}
+
+@MISC{wikipedia_contributors_spatial_2012,
+  author = {{{Wikipedia} contributors}},
+  title = {Spatial reference system},
+  month = aug,
+  year = {2012},
+  note = {Page Version {ID:} 481415254},
+  abstract = {A spatial reference system {(SRS)} or coordinate reference system
+	{(CRS)} is a coordinate-based local, regional or global system used
+	to locate geographical entities. A spatial reference system defines
+	a specific map projection, as well as transformations between different
+	spatial reference systems. Spatial reference systems are defined
+	by the {OGC's} Simple feature access using well-known text, and support
+	has been implemented by several standards-based geographic information
+	systems. Spatial reference systems can be referred to using a {SRID}
+	integer, including {EPSG} codes defined by the International Association
+	of Oil and Gas Producers.},
+  copyright = {Creative Commons Attribution-{ShareAlike} License},
+  journal = {Wikipedia, the free encyclopedia},
+  lccn = {0000},
+  owner = {ispmarin},
+  publisher = {Wikimedia Foundation, Inc.},
+  timestamp = {2012.08.20},
+  url = {http://en.wikipedia.org/w/index.php?title=Spatial_reference_system&oldid=481415254}
+}
+
+@MISC{wikipedia_contributors_well-known_2012,
+  author = {{{Wikipedia} contributors}},
+  title = {Well-known text},
+  month = jul,
+  year = {2012},
+  note = {Page Version {ID:} 504207840},
+  abstract = {Well-known text {(WKT)} is a text markup language for representing
+	vector geometry objects on a map, spatial reference systems of spatial
+	objects and transformations between spatial reference systems. A
+	binary equivalent, known as well-known binary {(WKB)} is used to
+	transfer and store the same information on databases, such as {PostGIS}
+	and {DB2.} The formats were originally defined by the Open Geospatial
+	Consortium {(OGC)} and described in their Simple Feature Access and
+	Coordinate Transformation Service specifications. The current standard
+	definition is in the {ISO/IEC} 13249-3:2011 standard, {"Information}
+	technology -- Database languages -- {SQL} multimedia and application
+	packages -- Part 3: Spatial".},
+  copyright = {Creative Commons Attribution-{ShareAlike} License},
+  journal = {Wikipedia, the free encyclopedia},
+  lccn = {0000},
+  owner = {ispmarin},
+  publisher = {Wikimedia Foundation, Inc.},
+  timestamp = {2012.08.18},
+  url = {http://en.wikipedia.org/w/index.php?title=Well-known_text&oldid=504207840}
+}
+
+@comment{jabref-meta: selector_publisher:}
+
+@comment{jabref-meta: selector_author:}
+
+@comment{jabref-meta: selector_journal:}
+
+@comment{jabref-meta: selector_keywords:}
+

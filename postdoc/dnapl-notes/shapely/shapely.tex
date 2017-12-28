@@ -1,0 +1,184 @@
+\documentclass[11pt]{article} 
+\usepackage[utf8]{inputenc}
+
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper}
+\usepackage{url}
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage{array} 
+\usepackage{paralist} 
+\usepackage{verbatim} 
+\usepackage{subfig} 
+
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\renewcommand{\headrulewidth}{0pt} 
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\usepackage[nottoc,notlof,notlot]{tocbibind} 
+\usepackage[titles,subfigure]{tocloft} 
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} 
+
+
+
+\title{Notes on Shapely}
+\author{Ivan Marin}
+\date{\today} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+The objective of this notebook is to define all geometric operations used on GIS, both in spatially enabled databases and on code that needs to use this definitions. These definitions are mostly from \cite{opengis_sfa_1, opengis_sfa_2}.
+
+\section{OpenGEOS Simple Features Access}
+\subsection{Definitions}
+
+\subsubsection{Coordinate System}
+Coordinate System is a set o mathematical rules for specifying how coordinates are to be assigned to each point.
+
+\subsubsection{Coordinate Reference System} 
+Coordinate Reference System is a coordinate system that is related to the real world by a datum. Same thing as Spatial Reference System \cite{wikipedia_contributors_spatial_2012}.
+
+\subsection{Simple Feature Access} 
+Simple Feature Access specifies  a common storage model of geographical data, using both well-known text or binary formats \cite{ wikipedia_contributors_simple_2012, opengis_sfa_1, opengis_sfa_2}.
+
+\begin{itemize}
+  \item \cite{opengis_sfa_1} is also named ISO 19125
+  \item Simple Feature Geometry is an object model, represented by UML, \textit{Unified Modeling Language}
+   \item Each geometric object has a Spatial Reference System (UTM, etc) associated
+   \item Basic Geometry class has Point, Curve, Surface and GeometryCollection subclasses
+  \item Extended geometry model has MultiPoint, MultiLineString and MultiPolygon for collections of Points, LineStrings and Polygons, plus MultiCurve and MultiSurfaces
+\end{itemize}
+
+
+\subsection{WKT}
+WKT, \textit{well-known text}, is a markup language to represent vector geometry on a map, representing the spatial objects in spatial reference systems and its transformations, also defined by OGC \cite{wikipedia_contributors_well-known_2012}. 
+
+\subsection{Abstract Class Geometry}
+
+\begin{itemize}
+\item Geometry is a root class.
+\item Geometry is not instantiable 
+\item $R^{2}: (x,y)$
+\item $R^{3}: (x,y,z)$ or $(x,y,m)$
+\item $R^{4}: (x,y,z,m)$
+\item All points are associated with a coordinate reference system
+\item All points in the same Geometry are associated with the same coordinate reference system, either directly or through its containing Geometry
+\item the coordinate $m$ represents a measurement
+\item All Geometries are topologically closed - the boundaries are points included in the coordinate sets.
+\end{itemize}
+
+\subsubsection{Methods that a Geometry has:}
+The representations on this section and the following is Method(ArgumentType):ReturnType - Description.
+
+
+\begin{itemize}
+\item Dimension(): Integer - $R^{1} = 1$, $R^{2} = 2$, etc
+\item GeometryType(): Geometry -  type of Geometry, string
+\item SRID(): Integer -  ID of the Spatial Reference System, a pointer (index) in a list of reference systems stored somewhere.
+\item Envelope():  Geometry - the minimum bounding box, as two positions, one containing the MINX, MINY and other as MAXX, MAXY.
+\item AsText(): String - Exports this geometric object to a Well-known Text Representation.
+\item AsBinary(): Binary - Exports this geometric object to a Well-known Binary Representation.
+\item IsEmpty(): Integer - if returns TRUE (int 1), is an empty set in the coordinate space.
+\item IsSimple(): Integer - returns True (int 1) if there are no self intersections or self tangency.
+\item Is3D(): Integer - if it has z points
+\item IsMeasured(): Integer - if the geometry includes m measure points.
+\item Boundary(): Geometry - returns the boundary geometry.
+\end{itemize}
+\subsubsection{Methods for testing spatial relations in a Geometry:}
+\begin{itemize}
+\item Equals(otherGeometry):  Integer - test two geometries, returns 1 if they are equal.
+\item Disjoint(otherGeometry): Integer -  returns 1 if spatially disjoint. Tests if the two geometries does not overlap, touches or are within.
+\item Intersects(otherGeometry): Integer -  returns 1 if this intersect another geometry.
+\item Touches(otherGeometry): Integer -  returns 1 if this geometry touches another one.
+\item Crosses(otherGeometry): Integer -  returns 1 if this geometry crosses another one.
+\item Within(otherGeometry):  Integer - returns 1 if this geometry is inside another one.
+\item Contains(otherGeometry):  Integer - returns 1 if this geometry contains other geometry.
+\item Overlaps(otherGeometry):  Integer - returns 1 if this geometry overlaps other geometry.
+\item Relate(otherGeometry): hum, not clear
+\item LocateAlong(double): not clear, need to define measurement
+\item LocateBetween(double) same thing as above
+\end{itemize}
+\subsubsection{Methods that support spatial analysis}
+These methods depend on the coordinate representations and its precision and linear interpolation.
+\begin{itemize}
+\item Distance(otherGeometry): returns a double with the shortest distance between the two geometries (this and otherG) in the spatial reference system of this geometry. 
+\item Buffer(distance: double): Geometry - returns a geometry with all the points with the same distance or less, on the spatial reference system of this geometry.
+\item ConvexHull():Geometry -  Geometry returns a geometric convex hull of this geometry.
+\item Intersection (otherGeometry): Geometry - returns a geometry with the point set intersection of this geometric object with otherGeometry
+\item Union(otherGeometry): Geometry - returns a geometry with the point set of the union of this geometry with otherGeometry.
+\item Difference (otherGeometry):Geometry -  returns a geometry with the difference point set between this geometry and otherGeometry.
+\item SymDifference(otherGeometry):Geometry -  returns a geometry with the symmetric difference between this and otherGeometry
+\end{itemize}
+
+\subsubsection{The coordinate $z$ or $m$}
+A Point may include $z$or $m$. In GIS, $z$ may be the height above or below sea level. $m$ is a measure from some reference point. Note that usually the $z$ or $m$ coordinates are \textit{not} used for calculations of distance, length, etc, that happens in 2D, so the objects are projected on the $(x,y)$ plane, on "shadow" style.
+
+\subsection{GeometryCollection}
+A GeometryCollection is a geometric object that is a collection of some number of geometric objects. All geometric objects ina GeometryCollection shall be in the same Spatial Reference System.
+\subsubsection{Methods}
+\begin{itemize}
+\item NumGeometries(): Integer - Number of Geometries present.
+\item GeometryN(N: integer): Geometry - returns the Geometry number N.
+\end{itemize}
+
+\section{Geometric Objects Definitions}
+\subsection{Point}
+Methods: X(), Y(), Z(), M()
+
+\subsection{MultiPoint}
+ Collection of points not connected.
+
+\subsection{Curve}
+1D, stored as sequence of points, with some interpolation algorithm. Is simple if it does not pass through the same Point twice, with exception of the endpoints. Methods: Length, StartPoint, EndPoint, IsClosed, IsRing. A Curve is a Ring when it's simple and closed. 
+
+\subsection{LineString, Line, LinearRing}
+A LineString is a Curve with linear interpolation between Points. Each consecutive pair of Points defines a Line Segment. A Line is a LineString with exactly 2 Points. A LinearRing is a LineString that is closed and simple. Has NumPoints and PointN as methods.
+
+\subsection{MultiCurve}
+A MultiCurve is a collection of Curves. It is not instantiable, only defines methods. Is simple if all Curves are simple, and intersections only happens on the boundary of both geometries.
+
+\subsection{MultiLineString}
+Collection of LineStrings.
+
+\subsection{Surface}
+A Surface is a 2D geometric object, a patch associated with one exterior boundary. Stitching together surfaces generates a polyhedron. Two subclasses: Polygon and PolyhedralSurface. 
+\subsection{Polygon, Triangle}
+A Polygon is a simple surface that is planar. A Triangle is a polygon with 3 distinct, non-collinear vertices and no interior boundary. Polygons are topologically closed, the boundary of a polygon are a set of LinearRings to make the exterior and interior boundaries, and two Rings in the boundary can intersect only on a tangent Point. The interior of a Polygon is a connected point set. 
+
+Methods: 
+\begin{itemize}
+\item ExteriorRing (), returns a LineString with the exterior ring of this Polygon.
+\item NumInteriorRing() returns the number of interior rings in this Polygon
+\item InteriorRingN(N): LineString returns the N interior Ring of this Polygon as LineString.
+\end{itemize}
+
+\subsection{PolyhedralSurface}
+Composed by a continuous collection of polygons, that share a common boundary segment. Each polygon that touchs the interface must be represented by a finite number of LineStrings. Note that the same top orientation must be the same. 
+\subsubsection{Methods}
+NumPatches, PatchN, BoundingPolygons, IsClosed.
+
+\subsection{MultiSurface}
+GeometryCollection of Surfaces, all with the same coordinate reference system. The geometric interior of the surfaces must not intersect each other, except the boundary.  It is instatiable. 
+\subsubsection{Methods}
+Area, Centroid and PointOnSurface.
+
+\subsection{MultiPolygon}
+A MultiPolygon is a MultiSurface whose elements are Polygons. Some conditions: The interior of 2 Polygons in the MultiPolygon must not intersect. The boundaries of 2 Polygons may not cross and can only touch in a finite number of Points. Also, it is topologically closed. The boundary of the Polygons are LineStrings (Curves).
+
+\section{Shapely}
+Shapely \cite{shapely_web} is a Python Package for manipulation of planar features importing the GEOS \cite{geos_web} via Python ctypes. (Note that GEOS is itself a port of the Java Topology Suite to C++). Shapely is the geometry of PostGIS, the spatial extension for the PostgreSQL RDBMS. 
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+
+\end{document}

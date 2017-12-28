@@ -1,0 +1,610 @@
+\documentclass[11pt,twoside]{report} 
+\usepackage[utf8]{inputenc}
+
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper}
+\usepackage{url}
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage{array} 
+\usepackage{paralist} 
+\usepackage{verbatim} 
+\usepackage{subfig} 
+\usepackage{amsmath}
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\renewcommand{\headrulewidth}{0pt} 
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+\usepackage{fullpage}
+\usepackage[active]{srcltx}
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\usepackage[nottoc,notlof,notlot]{tocbibind} 
+\usepackage[titles,subfigure]{tocloft} 
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} 
+
+
+
+\title{Hydrogeochemistry}
+\author{Ivan Marin}
+\date{\today} 
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+
+
+%=================================================================================================
+\chapter{Hydrogeochemistry}
+\section{Definitions}
+All the definitions below are for multiphase flows, where $\gamma$ denotes a particular chemical component in the phase $\alpha$.
+
+\textit{Wetabillity}: affinity of soils for fluids
+
+\textit{Solvent}: dominant chemical species
+
+\textit{Solute}: chemical specie in small quantities, usually dissolved in the solute.
+
+\textit{Intensive Property}: is a physical property of the system that is independent on the system size or volume, like temperature and density.
+
+\textit{Extensive Property}: is a physical property of the system that depends on the system size or volume, like mass or volume. 
+
+\textit{Dilution Factor (DF)}: Ratio between the initial and the final concentrations of an ion, with no input along the followed path. Similar is the \textit{Concentration Factor (CF)}, that measures the ratio between the input of an ion with respect of the final concentration of such ion. 
+
+\textit{Partial Pressure}: the pressure that a gas in a mixture of gases would have if alone occupied the entire volume. The total pressure of a mixture of gases is the sum of the partial pressures of all gases present.
+
+\textit{Vapour Pressure}: the pressure that a gas has when in equilibrium with the other phases (solid and liquid) of the same gas. If a compound is below its vapour pressure, the solid or liquid will evaporate until the vapour pressure is achieved.
+
+\textit{Equivalent}: one equivalent of a species is defined as the number of moles multiplied by the charge of the species, so one equivalent of $CO_{3}^{2-}$ is equal to 0,5 moles of $CO_{3}^{2-}$, but one equivalent of $Cl^{-}$ is equal to 1 mol of $Cl^{-}$. In acid and base solutions, one equivalent is equal to the number of moles divided by the number of protons or hydroxide ions that would be available if the species dissociated. 2 equivalents per mole of $H_{2}CO^{3}$ and 1 equivalent for one mole of $Na(OH)$.
+
+\subsection{Saturation}
+Fraction of the pore space containing fluid. It can be described per fluid, in a multiphase system, or for each component dissolved in a single phase flow. It is defined as 
+\begin{align}
+   S_{\gamma} = \frac{V_{\gamma}}{V}, \\
+   \sum_{\gamma}S_{\gamma} = 1
+\end{align}
+
+For example, in a NAPL flow, the residual dissolved phase has a relation with the groundwater:
+
+\begin{align}
+   S_{w} + S_{NAPL} = 1
+\end{align}
+
+
+\subsection{Concentration}
+Quantity/volume, in several different units. It can be expressed as
+\begin{itemize}
+   \item mass (kg/$m^{3}$, g/$m^{3}$)
+   \item mol (mol/$m^{3}$, $6,02 \times 10^{23} \ m^{3}$)
+   \item molar fraction: ratio between n mols of component $\gamma$ to the total volume of the phase $\alpha$
+   \item mass fraction: ratio between the mass of component $\gamma$ to the total volume of the phase $\alpha$
+\end{itemize}
+
+\textit{molality} is the concentration of the component in mol in one kg of the solute [$mol/kg$] 
+
+\textit{molarity} is the concentration of the component in mol in one l of the solute. [$mol/l$]
+
+\textit{Master Parameters} are pH, redox potential Eh and ionic strength. 
+
+\textit{Mole Fraction} is the number of a constituent divided by the total number of all constituents in a mixture. In a mixture of $O_{2}$ and $N_{2}$, the mole fraction of $O_{2}$ is the number of $O_{2}$ molecules divided by the total number of molecules, $O_{2} + N_{2}$, and so on.
+
+\subsection{Raoult's Law}
+For gases, Raoult's Law is given by
+
+\begin{align}
+   p = \sum_{i}^{N} p_{i}^{'}x_{i}
+\end{align}
+where $p$ is the total pressure, $p_{i}^{'}$ is the vapour pressure of species $i$, and $x_{i}$ its molar fraction. The partial pressure for species $i$ is equal to 
+
+\begin{align}
+   p_{i} = p_{i}^{'}x_{i}
+\end{align}
+
+When considering dissolution in water for several different species, for example dissolution of NAPL, Raoult's Law is stated as
+
+\begin{align}
+   C_{aq,i} = X_{i}S_{i}
+\end{align}
+where $C_{aq,i}$ is the equilibrium concentration of the NAPL compound $i$, $X_{i}$ is the molar fraction and $S_{i}$ is the saturation of pure species $i$
+
+
+\section{Approaches for Geochemical Reactions}
+One approach for the understanding of geochemical reactions is the use of equilibrium (or thermodynamic) approach. It is based on the assumption that the reactions achieve instantaneous equilibrium, with no dependency of time. This will be discussed in section \eqref{secequi}. When the reaction times are important, like the reaction rates, the kinetic approach must be used. This will be shown in section \eqref{seckin}. 
+
+\subsection{Thermodynamics}
+This section follows Sracek and Zeman closely\cite{sracek}. \textit{Activity} is the "thermodynamic concentration", a fraction of the total concentration of the solvent that participates in geochemical reactions. It is given by
+
+\begin{align}
+   a_{i} = \gamma_{i}m_{i}
+\end{align}
+
+where $\gamma_{i}$ is the activity coefficient, and $m_{i}$ the concentration of solute $i$. The activity is function of \textit{ionic strength} $I$, calculated as
+
+\begin{align}
+   I = \frac{1}{2}\sum_{i}m_{i}z_{i}^{2}
+\end{align}
+with again $m_{i}$ being the concentration and $z_{i}$ being the charge of ion i. When ionic strength increases, activity coefficient decreases, the maximum being very diluted solutions, where $I \cong 1.0$ and activity is equal concentration. There are two behaviors for activity: if $I < 0.5$, there is a region where the polar water molecules shields the ion, so if the ionic strength increases, so does the shield, and activity goes down. There is another behavior when $I > 1.0$, when activity instead increases with ionic strength, given that the available water is already bind by the ions. 
+For the three regimens, three different formulas are used:
+
+\begin{itemize}
+   \item $I<0,1$, Debye-Hückel
+   \item $0,1 < I < 0,5$, Davies 
+   \item $I \leq 1.0$, Pitzer
+\end{itemize}
+
+The Debye-Hückel equation is 
+
+\begin{align}
+   \log \gamma_{i} = -Az_{i}^{2}\frac{\sqrt{I}}{1 + Ba\sqrt{I}}
+\end{align}
+
+with $A$ and $B$ being constants dependent of temperature, and $a$ a parameter related to the size of the ion. 
+
+the Davies equation is equal to 
+
+\begin{align}
+    \log \gamma_{i} = -\frac{Az_{i}^{2}\sqrt{I}}{1 + \sqrt{I}} + 0,2Az_{i}^{2}I
+\end{align}
+with again $A$ being a constant dependent of temperature. 
+
+
+
+
+
+\subsection{Chemical Reactions in Equilibrium}\label{secequi}
+The \textit{law of mass action} is, for a chemical reaction, 
+
+\begin{align}
+   aA + bB \longleftrightarrow cC + dD
+\end{align}
+
+The chemical reactions in equilibrium are governed by the Gibbs Free Energy, defined as
+
+\begin{align}
+   G = H - TS
+\end{align}
+where $H$ is the enthalpy, $T$ is temperature and $S$ is entropy. The driving force of the reaction, the Gibbs free energy, is equal to 
+
+\begin{align}
+   \Delta G_{R} =  \Delta G_{R}^{0} + RT\ln \frac{a_{C}^{c}a_{D}^{d}}{a_{A}^{a}b_{B}^{b}}
+\end{align}
+with $\Delta G_{R}^{0}$ the standard Gibbs free energy, $R$ the universal gas constant and $T$ is temperature.
+
+At the equilibrium, $\Delta G_{R}^{0} = 0$ and so
+
+\begin{align}
+    \Delta G_{R}^{0} = -RT \ln K
+\end{align}
+where $K$ is defined as the \textit{equilibrium constant}, 
+
+\begin{align}
+   K = \frac{a_{C}^{c}a_{D}^{d}}{a_{A}^{a}b_{B}^{b}}|_{eq}
+\end{align}
+
+The solubility product $K_{sol}$ is the equilibrium constant for the dissolution/precipitation of a mineral. For gypsium
+
+\begin{align}
+   CaSO_{4} \cdot 2H_{2}O = Ca^{2+} + SO_{4}^{2-} + 2H_{2}O
+\end{align}
+
+with a mass action equation for activities is 
+
+\begin{align}
+   \frac{[Ca^{2+}][SO_{4}^{2-}][H_{2}O]^{2}}{[CaSO_{4} \cdot 2 H_{2}O]} = K_{sol}
+\end{align}
+
+The activities of pure solid phases and the solvent are equal to 1, so
+
+\begin{align}
+   [Ca^{2+}][SO_{4}^{2-}] = K_{sol} = 10^{-6,2}
+\end{align}
+
+This is determined for dissolution. The equilibrium constant for precipitation is $1/K_{sol}$.
+
+The reaction number $IAP$ describes the changes when the system is out of equilibrium:
+
+\begin{align}
+IAP = \frac{[E^{e}][F^{f}]}{[A^{a}][B^{b}]}   
+\end{align}
+so if $IAP < K$, the concentrations of $[E]$ and $[F]$ will increase, and if $IAP > K$, $[A]$ and $[B]$ will increase. The \textit{Saturation Index} indicates the degree of saturation, so
+
+\begin{align}
+   SI = \log \frac{IAP}{K_{sol}}
+\end{align}
+The saturation index indicates the direction of the reaction. If $IAP = K$, what indicates that the reaction reaches equilibrium for that species, $log(1/1) = 0$, so $SI=0$ indicates that the species is saturated.
+\subsection{Reactive Minerals}
+Some minerals react so fast with water that their reactions can be considered as in equilibrium. They are, for carbonates:
+\begin{itemize}
+   \item calcite, $CaCO_{3}$
+   \item dolomite, $CaMg(CO_{3})_{2}$
+   \item siderite, $FeCO_{3}$
+   \item rodochrozite, $MnCO_{3}$
+\end{itemize}
+For sulfates:
+\begin{itemize}
+   \item gypsium, $CaSO_{4} \cdot 2H_{2}O$
+   \item jarosite, $KFe_{3}(SO_{4})_{2}(OH)_{6}$
+   melanterite, $FeSO_{4} \cdot 7H_{2}O$
+\end{itemize}
+and for oxides and hydroxides:
+\begin{itemize}
+   \item ferrihydrate, $Fe(OH)_{3}$
+   \item goethite, $FeOOH$
+   \item gibbsite, $Al(OH)_{3}$
+   \item manganite, $MnOOH$
+   \item amorphous silica, $SiO_{2}$
+   \item brucite, $Mg(OH)_{2}$
+\end{itemize}
+
+\subsection{Complexation}
+Complexation is the reaction where an metal cation reacts with a ligand, an anion, forming a coordination complex. In dissolution in water there is a formation of aquatic complexes, increasing the solubility of several calcium minerals, for example. Related is the Common Ion Effect. The addition of another solute with the same ion as the dissolved one, can lead to the precipitation to the dissolved solute. For example, if gypsium is added to calcite that is already dissolved, the following reaction occurs:
+
+\begin{align}
+   Ca^{2+} + HCO_{3}^{-} + CaSO_{4} \cdot 2H_{2}O \longleftrightarrow Ca^{2+} + SO_{4}^{2-} + CaCO_{3}(s) + H^{+} + 2H_{2}O
+\end{align}
+as calcite is less soluble than gypsium. 
+
+
+\subsection{Chemical Reactions Out of Equilibrium - Chemical Kinetics}\label{seckin}
+Chemical reactions out of equilibrium conditions are governed by chemical kinetics, with time and reaction rates being important. Every chemical reaction has a kinetic and an equilibrium phase, and the reaction velocities determine which behavior will be more important. The importance will also depend on other factors, like the groundwater flow velocity and the domain. The velocity or rate of reaction depends on:
+
+\begin{itemize}
+   \item collision frequency of reacting molecules
+   \item percentage of the collisions that are sufficiently energetic to cause a reaction
+\end{itemize}
+
+The order of reaction depends on the exponent of the independent variable. A reaction can be described by
+
+\begin{align}
+   \frac{dA}{dt} = -k_{f}[A] \\
+   A = A_{0}e^{-k_{f}t}
+\end{align}
+so the concentration of the compound follows an exponential law, causing the "long tail" effect of kinetic reactions. This reaction is of first order because of the exponent of the activity of $[A]$. Zero order kinetic reaction is proportional to a constant, 
+
+\begin{align}
+   \frac{dA}{dt} = -k_{f} \\
+   A = A_{0} - k_{f}t
+\end{align}
+
+The oxidation of $Fe^{2+}$ by oxygen is an example of a second order kinetic reaction:
+
+\begin{align}
+   \frac{dm_{Fe^{2+}}}{dt} = -k m_{Fe^{2}}[OH^{-}]^{2}p_{O_{2}}
+\end{align}
+where $m_{Fe^{2+}}$ is the concentration, $[OH^{-}]$ is related to the pH of the solution and $p_{O_{2}}$ is the partial pressure of $O_{2}$.
+
+A general model for the chemical reactions out of equilibrium can be expressed by
+
+\begin{align}
+   \frac{d[A]}{dt} = -k_{f}[A]^{\alpha}[B]^{\beta} + k_{b}[E]^{\epsilon}[F]^{\eta}
+\end{align}
+where
+
+\begin{itemize}
+   \item $[A]$ is the reaction rate of chemical A
+   \item $k_{f}$ is the forward rate constant
+   \item $k_{b}$ is the backward rate constant
+   \item $\alpha,\beta,\epsilon,\eta$ are the reaction orders
+\end{itemize}
+all empirical parameters. 
+
+\subsection{Henry's Law}
+Henry's Law states that the solubility of a gas in a liquid is directly proportional to the partial pressure the gas above the liquid. It is stated as 
+
+\begin{align}
+   K_{H} = \frac{[A]_{aq}}{[A]_{g}}
+\end{align}
+
+It should be noted that Raoult's Law is similar to Henry's Law, but they should be applied in different contexts, depending on the concentration of the element. If the mole fraction is close to 1, Raoult's Law should be used, and if close to 0, Henry's Law is better applicable. 
+
+\subsection{Oxidation and Reduction}
+Oxidation and Reduction occur simultaneously in a reaction when one electron is transferred from one atom to another during a chemical reaction, and as electrons cannot freely exist in solution, an oxidation is always simultaneous with a reduction. Photosynthesis, respiration, corrosion, combustion and batteries are redox reactions. The organisms in the subsurface obtain their energy from redox reactions: the photosynthetic organisms reduce carbon using photons, while non-photosynthetic organisms utilize the organic products of photosynthesis in catalytic redox reactions.  Electron transfer always must be from low $pe$ (electron rich) on the redox ladder to high $pe$ (electron poor) on the redox ladder. This is based from the energy released by each redox reaction, going from the reaction that releases the most energy to the least. The sequence is 
+
+
+\begin{align}
+   O_{2} \rightarrow NO_{3}^{-} \rightarrow Mn^{4+} \rightarrow Fe^{3+} \rightarrow SO_{4}^{2-} \rightarrow CH_{4}^{-}
+\end{align}
+
+
+\begin{itemize}
+   \item Atom \textbf{loses} an electron: oxidized
+   \item Atom \textbf{gains} an electron: reduced
+\end{itemize}
+
+The term oxidation comes from the chemical reactions with $O_{2}$: it is strongly reduced (gain electrons) and oxides (remove electrons) from other atoms. The oxidation number is the hypothetical charge that an atom would have if was dissociated of the compound that it forms. Eletronegativity is a measure of affinity for electrons. Chemical bounds with similar electronegativity are covalent, and with very different electronegativity are ionic.
+
+The oxidation of the ion $Fe^{2+}$ to a $3+$ state and precipitation of ferric hydroxide is given by the equation \eqref{ferrichydroxide}:
+
+\begin{align}
+   Fe^{2+} + 0,25 O_{2} + 2,5 H_{2}O \longleftrightarrow Fe(OH)_{3}(s) + 2 H^{+}
+\end{align}
+
+The redox reactions can be separated in a oxidation and reduction reactions:
+
+\begin{align}
+   Fe^{0}(s) \rightarrow Fe^{2+} + 2e^{-} \qquad \text{Fe oxidation} \\
+   0,5 O_{2} + 2H^{+} + 2e^{-} \rightarrow H_{2}O \qquad \text{O reduction}
+\end{align}
+
+\subsubsection{Redox Units}
+The redox potential $Eh [V]$ is given relative to a hydrogen electrode, given by the Nerst equation:
+
+\begin{align}
+   Eh  = Eh^{0} + \frac{RT}{nF}\ln \frac{[Fe^{3+}]}{[Fe^{2+}]} \qquad Eh^{0} = 0,77V
+\end{align}
+where $n$ is the number of transferred electrons, $F$ the Faraday constant. The activity of electrons, $pe$, is given by
+
+\begin{align}
+   pe = pe^{0} + \ln \frac{[Fe^{3+}]}{[Fe^{2+}]} \qquad pe^{0} = 13
+\end{align}
+and the conversion factor is
+
+\begin{align}
+   Eh[V] = 0,059pe \qquad \text{at 25C}
+\end{align}
+
+\section{Sorption}
+\subsection{Inorganic Adsorption}
+
+Adsorption is the attachment of dissolved solids to a adsorbent surface, while absorption is the penetration of the dissolved solids into the structure of the adsorbent. Usually clays have large adsorption capabilities independent of pH, while hydroxides and organic matter depends highly with pH. The charge of the surface is important for the adsorption process. The separation of sorption, exchange and other processes are hard to differentiate. 
+
+Cation exchange capacity characterizes the surface adsorption capacity for cations. Organic matter in solid phase can generate negative charges on the solid surfaces, increasing the adsorption cation exchange. As usually clays have the highest areal surface, the adsorption capacity can be calculated by an empirical formula related to the clay content:
+
+\begin{align}
+   CEC [meq/100g] = 0,7 \cdot (\% clay) + 3,5 \cdot (\% C)
+\end{align}
+
+
+Ion exchange, different from sorption, takes into account all the competing ions for adsorption sites. It takes into account the substitution of one adsorbed ion by one present in the solution, depending on the ion charge - ions with higher charge are preferred, but it is also dependent on the ion concentration in solution. Adsorption has an affinity ladder, from higher to lower:
+
+\begin{align}
+   Al^{3+} > Ca^{2+} > Mg^{2+} > K^{+} > Na^{+}
+\end{align}
+
+The adsorption models are usually empiric and isotherms. The Langmuir isotherm for adsorption is given by
+
+\begin{align}
+   S = \frac{S_{max}K_{L}C}{1 + K_{L}C}
+\end{align}
+where $S_{max}$ is the maximum amount of contaminant that can be adsorbed. The Freundlich isotherm is given by
+
+\begin{align}
+   S = K_{F} \cdot C^{N}
+\end{align}
+with the coefficient $N$ usually smaller than 1.
+
+\subsection{Retardation Factor R}
+The adsorption isotherms can be coupled with ADR. The adsorption isotherms are used to calculated the retardation factor R, defined as 
+
+\begin{align}
+   R = \frac{v_{water}}{v_{conta}} = 1 + \frac{\rho_{b}}{n}\frac{dS}{dC}
+\end{align}
+for what $v_{water}$ is the advection velocity and $_{conta}$ is the velocity of the adsorbed contaminant migration, $S$ the adsorbed quantity and $C$ the concentration. The retardation factors for several isotherms are
+
+\begin{align}
+   R &= 1 + \frac{\rho_{b}}{n}K_{d} & \qquad \text{linear isotherm} \\
+   R &= 1 + \frac{\rho_{b}}{n}K_{f}NC^{N-1} & \qquad \text{Freundlich isoterm} \\
+   R &= 1 + \frac{\rho_{b}}{n}\frac{K_{L}S_{max}}{(1 + K_{L}C)^{2}} & \qquad \text{Langmuir isotherm}
+\end{align}
+
+
+\subsection{Mass Transfer}
+\textit{Mass Transfer} is the process of transferring mass from one phase to another phase\footnote{More generally, mass transfer is the process of transferring mass from one location to another, location being a stream, phase, fraction or component}. Processes that are mass transfers are sorption (that includes absorption and adsorption), precipitation and distillation. In this case, mass transfer refers to the dissolution of an organic compound into water.
+
+The mass transfer for NAPL in groundwater can be described by \cite{molson1998}:
+\begin{align}
+   \frac{d\bar{c}}{dt} = \phi \lambda_{D}S_{w}\left(c_{w} - c_{wm} \right)
+\end{align}
+where
+\begin{itemize}
+   \item $\bar{c}$ is volumetric concentration
+   \item $\phi$ is the porosity
+   \item $\lambda_{D}$ is the constant of rate of dissolution
+   \item $S_{w}$ is the water saturation*****
+   \item $c_{w}$ is the concentration of the organic compound in aqueous phase
+   \item $c_{wm}$ is the equilibrium concentration of the organic compound in gaseous phase 
+\end{itemize}
+
+
+
+
+% Difference of equilibrium and kinetic: equilibrium the dissolved phase is at the solubility limit of DNAPL, and kinetic process driven by diffusion where the concentration of the dissolved phase is below the solubility limit. Kinetic leads to tailing. 
+% Percolation and mass transfer occurs on different time scales and can be decoupled. Local Equilibrium Assumption - hypothesis: the concentration of NAPL in the groundwater at the source corresponds to the solubility value of NAPL. Tailing in the concentration usually indicates a non-equilibrium process. Tailing can also be residual zones in low-permeability areas being dissolved later than residues in high-permeability zones. These processes can lead to a kinetic (diffusive) mass transfer process contribution. Kinetic process represented by a stagnant boundary layer model.
+% 
+% Experiments relate mass transfer process in lab columns to relate directly to aqueous-phase velocity and NAPL saturation. Conditions that influence where non-equilibrium transport tend to occur: spatial extension of the spill, Darcy velocity, size NAPL blob, residual NAPL saturation.
+% 
+% Models for DNAPLs: spherical droplets, that change the mass rate in time with the change of superficial interface area, indicating equilibrium at early time and kinetic at later time. 
+
+
+\section{Simulation}
+Courant and Peclet constraints
+kinetics is not a controlling process at homogeneous field sites. Fractures can change that? Considering that fractures increase the flow velocity, some reactions that could be occuring in equilibrium now can be happening in the kinetic phase.
+
+
+
+%=================================================================================================
+\chapter{Carbonate Systems}
+\section{Introduction}
+Most of the carbonate reactions are from one of the following categories:
+
+Acid-base reactions:
+\begin{align}
+   H_{1}CO_{3} \longleftrightarrow H^{+} + HCO_{3}^{-}
+\end{align}
+
+Adsorption/Desorption:
+\begin{align}
+   --S + Mn^{2+} \longleftrightarrow -S-Mn
+\end{align}
+where $--S$ means the surface and $-S-Mn$ means adsorbed.
+
+Complexation:
+\begin{align}
+   UO_{2}^{2+} + 2CO_{3}^{2-} \longleftrightarrow [UO_{2}(CO_{3})_{2}]^{2-}
+\end{align}
+
+\section{Acid-Base Reactions in Carbonate Systems}
+Carbonate Acid-Base reactions can be dependent of pH, and because of that is sometimes called master variable. pH can also be correlated to the concentration of hydroxide:
+
+\begin{align}
+   H_{2}( \longleftrightarrow H^{+} + OH^{-} \qquad K_{w} = a_{H}a_{OH}
+\end{align}
+and at 25C $K_{w} = 10^{-14}$.
+
+\subsection{Acid Reactions}
+The dissociation constant of an acid or base is a good indication of the strength of it. For $HCl$,
+
+\begin{align}
+   HCl \longleftrightarrow H^{+} + Cl^{-}
+\end{align}
+
+with a dissociation constant
+
+\begin{align}
+   K_{HCl} = \frac{a_{H^{+}}a_{Cl^{-}}}{a_{HCl}} = 10^{3}
+\end{align}
+and that means that only 3\% of the $HCl$ will remain undissociated. For hydrogex dicarboxide, the reaction is 
+
+\begin{align}
+   H_{2}CO_{3} \longleftrightarrow
+\end{align}
+
+so the reaction constant is equal to
+
+\begin{align}
+   K_{H_{2}CO_{3}} = \frac{a_{H^{+}}a_{HCO_{3}^{-}}}{a_{H_{2}CO_{3}}} = 10^{-6,36}
+\end{align}
+
+what indicates that very few $H_{2}CO_{3}$ molecules dissociate in low pH. Protons ($H^{+}$) will remain in solution, as a free species. As pH is related to the concentration of $H^{+}$ in the solution and several reactions are strongly dependent on pH, the proton accounting, mass balance and conservation equations are important. 
+
+In pure water, the concentration of $H^{+}$ is the same as the ion hydroxide:
+
+\begin{align}
+   [H^{+}] = [OH^{-}]
+\end{align}
+
+when other species are present, this balance will be changed:
+
+\begin{align}
+   H_{2}CO_{3} \longleftrightarrow H^{+} + HCO_{3}^{-}
+\end{align}
+
+so the proton balance equation is equal to 
+
+\begin{align}
+   H^{+} = [OH^{-}] + [HCO_{3}^{-}] + 2[CO_{3}^{2-}]
+\end{align}
+
+The dissolution of $CO_{2}$ in water generates protons too:
+
+\begin{align}
+   CO_{2} + H_{2}O \longleftrightarrow H^{+} HCO_{3}^{-}
+\end{align}
+
+Solutions also have the property of being electrically neutral, so 
+
+\begin{align}
+   \sum m_{i}z_{i} = 0
+\end{align}
+
+and this must always being taken into account for solution reaction rates. Also, the mass conservation must always hold too, for each species, although defining the mass balance equations can be tricky. 
+
+\section{Carbonate System}
+Carbonic acid reacts with water to form carbonic acid:
+
+\begin{align}
+   CO_{2}(g) + H_{2}O \longleftrightarrow  CO_{2}(aq)\\
+   CO_{2}(aq) + H_{2}O\longleftrightarrow H_{2}CO_{3}
+\end{align}
+
+Carbonic acid dissociates in bicarbonate and hydrogen ions: 
+
+\begin{align}
+   H_{2}CO_{3} \longleftrightarrow H^{+} + HCO_{3}^{-}
+\end{align}
+
+and some of the bicarbonate will dissociate to another hydrogen atom and a carbonate ion:
+
+\begin{align}
+   HCO_{3}^{-} \longleftrightarrow H^{+} + CO_{3}^{2-}
+\end{align}
+
+The equilibrium constant equations are
+
+\begin{align}
+   K_{sp} = \frac{a_{H_{2}CO_{3}}}{p_{CO_{2}}} \\
+   K_{1} = \frac{a_{H^{+}a_{HCO_{3}^{-}}}}{a_{H_{2}CO_{3}}} \\
+   K_{1} = \frac{a_{H^{+}a_{CO_{3}^{2-}}}}{a_{HCO_{3}^{-}}} 
+\end{align}
+This dissolution chain indicates that water in contact with the atmosphere, so in contact with $CO_{2}$ will be slightly acidic. Groundwater, although may not be in equilibrium with the atmosphere, will also contain $CO_{2}$, and sometimes with concentrations higher than surface water, caused by the microorganisms consuming organic matter in the subsurface. 
+
+Carbonates like calcite and others are common minerals in soils and sedimentary, metamorphic and altered igneous rocks. The reaction for calcite in groundwater is 
+
+\begin{align}
+   CaCO_{3} \longleftrightarrow Ca^{2+} + CO_{3}^{2-}
+\end{align}
+and the carbonate ions $CO_{3}^{2-}$ will associate with hydrogen to form bicarbonate, increasing the pH of the solution. 
+
+To determine the dominant species of the carbonate solutions in function of the pH, assuming that the total activity for all carbonate species in solution is known:
+
+\begin{align}
+   a_{H_{2}CO_{3}} + a_{HCO_{3}^{-}} + a_{CO_{3}^{2-}} = \sum CO_{2} = 10^{-2}
+\end{align}
+
+Substituting the activities with the equilibrium constant equations in function of the bicarbonate ion, that are function of the bicarbonate ion and pH, and solving for the bicarbonate ion in function of the total mass of $CO_{2}$ and hydrogen activity:
+
+\begin{align}
+   a_{HCO_{3}^{-}} = \frac{\sum CO_{2}}{\frac{a_{H^{+}}}{K_{1}} +1 + \frac{K_{2}}{a_{H^{+}}}  }
+\end{align}
+
+\subsection{Conservative and Non-Conservative Ions}
+Conservative ions don't change its concentration with pH, temperature or pressure, when no precipitation or dissolution are involved. They are $Na^{+}$, $K^{+}$, $Ca^{+}$, $Mg^{+}$, $Cl^{-}$, $SO_{4}^{2-}$ and $NO_{3}^{-}$. The ions $H^{+}$, $OH^{-}$, $CO_{3}^{2-}$ and some organic and inorganic anions are non-conservative, as they change its concentrations based on pH, temperature or pressure, and they also react between themselves. 
+
+\subsection{Total Alkalinity and Carbonate Alkalinity}
+Alkalinity is a measure of the neutralization capacity of a solution. It is defined as the sum of the concentration of the bases that are titratable\footnote{Titration is the determination of the acid or base concentration necessary to neutralize a base/acid in a solution. }. Acidity can be defined as the negative of alkalinity, so alkalinity is equal to the $TOT_{H}$ in a solution. For example, in the dissolution of $CaCO_{3}$ in water:
+
+\begin{align}
+   TOT_{H} = [H^{+}] - [HCO_{3}^{-}] - 2[CO_{3}^{2-}] - [OH^{-}]
+\end{align}
+with the alkalinity equal to 
+
+\begin{align}
+   Alk = -TOT_{H} = -[H^{+}] + [HCO_{3}^{-}] + 2[CO_{3}^{2-}] + [OH^{-}]
+\end{align}
+
+where $TOT_{H}$ is the total amount of component $H^{+}$, where every species that adds $H^{+}$ to the solution counts positively, and ones that subtract it, like adding $OH^{-}$, subtracts from $TOT_{H}$. It is also dependent of which species are chosen to be components.
+
+\section{Dissolution and Precipitation Reactions}
+As calcium carbonate is a common component of several kinds of rocks and soils, its dissolution/precipitation process has a strong influence in the carbonate concentrations, hardness and pH of groundwater. 
+
+The equilibrium constant is equal to 
+
+\begin{align}
+   K_{sp \cdot Ca} - a_{Ca^{2+}}a_{CO^{2-}_{3}}
+\end{align}
+
+The calcium concentration in water in equilibrium with calcite in function of $CO_{2}$ is
+\begin{align}
+   [Ca^{2+}] = p_{CO_{2}}\frac{K_{1} K_{sp \cdot Ca}  K_{sp \cdot CO_{2}}}{4K_{2}\gamma_{Ca^{2+}} \gamma_{HCO_{3}^{-}}^{2} [HCO_{3}^{-}]^{2} }
+\end{align}
+
+It's possible to write the equation for the concentration of $[Ca^{2+}]$ in function of only the partial $CO_{2}$ pressure:
+
+\begin{align}\label{caco2}
+  [Ca^{2+}] = \left(p_{CO_{2}}\frac{K_{1} K_{sp \cdot Ca} K_{sp \cdot CO_{2}} }{4 K_{2} \gamma_{Ca^{2+}}} \gamma^{2}_{HCO_{3}^{-}} \right)^{\frac{1}{3}}
+\end{align}
+
+and equation \label{caco2} implies that the increase of $p_{CO_{2}}$ will increase the solubility and so the concentration of $Ca$. This happens because the increase of $p_{CO_{2}}$ decreases pH, and this decreases $CO_{3}^{2-}$ concentration, leading to dissolution of $CaCO_{3}$. 
+
+
+\bibliographystyle{plain}
+\bibliography{bibliografia/bibliografia}
+
+\end{document}

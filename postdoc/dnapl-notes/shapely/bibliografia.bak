@@ -1,0 +1,58 @@
+% This file was created with JabRef 2.7b.
+% Encoding: UTF8
+
+@MISC{wikipedia_contributors_simple_2012,
+  author = {{{Wikipedia} contributors}},
+  title = {Simple feature access},
+  month = jun,
+  year = {2012},
+  note = {Page Version {ID:} 495004364},
+  abstract = {Simple feature access {(SFA;} also called {ISO} 19125), is both an
+	{OpenGIS} and {ISO} Standard that specifies a common storage model
+	of geographical data (point, line, polygon, multi-point, multi-line,
+	etc.) using well-known text (or binary). The geometries are also
+	associated with spatial reference systems. The {SFA} also specifies
+	attributes, methods and assertions with the geometries.},
+  copyright = {Creative Commons Attribution-{ShareAlike} License},
+  journal = {Wikipedia, the free encyclopedia},
+  lccn = {0000},
+  owner = {ispmarin},
+  publisher = {Wikimedia Foundation, Inc.},
+  timestamp = {2012.08.18},
+  url = {http://en.wikipedia.org/w/index.php?title=Simple_feature_access&oldid=495004364}
+}
+
+@MISC{wikipedia_contributors_well-known_2012,
+  author = {{{Wikipedia} contributors}},
+  title = {Well-known text},
+  month = jul,
+  year = {2012},
+  note = {Page Version {ID:} 504207840},
+  abstract = {Well-known text {(WKT)} is a text markup language for representing
+	vector geometry objects on a map, spatial reference systems of spatial
+	objects and transformations between spatial reference systems. A
+	binary equivalent, known as well-known binary {(WKB)} is used to
+	transfer and store the same information on databases, such as {PostGIS}
+	and {DB2.} The formats were originally defined by the Open Geospatial
+	Consortium {(OGC)} and described in their Simple Feature Access and
+	Coordinate Transformation Service specifications. The current standard
+	definition is in the {ISO/IEC} 13249-3:2011 standard, {"Information}
+	technology -- Database languages -- {SQL} multimedia and application
+	packages -- Part 3: Spatial".},
+  copyright = {Creative Commons Attribution-{ShareAlike} License},
+  journal = {Wikipedia, the free encyclopedia},
+  lccn = {0000},
+  owner = {ispmarin},
+  publisher = {Wikimedia Foundation, Inc.},
+  timestamp = {2012.08.18},
+  url = {http://en.wikipedia.org/w/index.php?title=Well-known_text&oldid=504207840}
+}
+
+@comment{jabref-meta: selector_publisher:}
+
+@comment{jabref-meta: selector_author:}
+
+@comment{jabref-meta: selector_journal:}
+
+@comment{jabref-meta: selector_keywords:}
+

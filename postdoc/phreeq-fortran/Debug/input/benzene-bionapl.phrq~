@@ -1,0 +1,206 @@
+TITLE CompBIONAPL 3
+# This model degrades benzene using a dual Monod
+# equation and biomass generation. The results
+# will be compared with a similar simulation using
+# BIONAPL.
+
+SOLUTION_MASTER_SPECIES
+  Xylene   	Xylene      0   C8H10  	106.16
+  
+  Benzene   Benzene       0     C6H6  78.108
+  
+  Biomass1	Biomass1		0	22.6	22.6
+  
+  Biomass2	Biomass2		0	22.7	22.7
+    
+    
+SOLUTION_SPECIES
+  Xylene = Xylene
+  log_k 0
+  -gamma    0.0000    0.0000
+
+  Benzene = Benzene
+  log_k 0
+  -gamma    0.0000    0.0000
+
+  Biomass1 = Biomass1
+  log_k 0
+  -gamma    0.0000    0.0000
+  
+  Biomass2 = Biomass2
+  log_k 0
+  -gamma    0.0000    0.0000
+  
+RATES
+ Benzene_degradation
+ -start
+  1 KO2_max = parm(1)
+  2 KO2_half = parm(2)
+  3 KAO2_half = parm(3)
+  4 KI = parm(4)  
+  5 R = 1 + parm(5)
+  6 KSO4_max = parm(6)
+  7 KSO4_half = parm(7)
+  8 KASO4_half = parm(8)
+ 10 S = mol("Benzene")
+ 20 BO2 = mol("Biomass1")
+ 30 BSO4 = mol("Biomass2")
+ 40 EAO2 = mol("O2")
+ 50 EASO4 = mol("SO4")
+ 60 if S < 1e-15 then goto 110
+ 70 rateBO2 =  - KO2_max * BO2 * (S /(KO2_half + S + (S*S/KI))) * (EAO2 /(KAO2_half + EAO2)) / R
+ 80 rateBSO4 =  - KSO4_max * BSO4 * (S /(KSO4_half + S + (S*S/KI))) * (EASO4 /(KASO4_half + EASO4)) / R
+ 90 rate = rateO2 + rateSO4
+ 100 dS = rate * time
+ 110 save dS
+ 120 put(rateBO2, 1)
+ 130 put(rateBSO4, 2)
+ -end
+ 
+  Xylene_degradation
+ -start
+  1 KO2_max = parm(1)
+  2 KO2_half = parm(2)
+  3 KAO2_half = parm(3)
+  4 KI = parm(4)  
+  5 R = 1 + parm(5)
+  6 KSO4_max = parm(6)
+  7 KSO4_half = parm(7)
+  8 KASO4_half = parm(8)
+ 10 S = mol("Xylene")
+ 20 BO2 = mol("Biomass1")
+ 30 BSO4 = mol("Biomass2")
+ 40 EAO2 = mol("O2")
+ 50 EASO4 = mol("SO4")
+ 60 if S < 1e-15 then goto 110
+ 70 rateXO2 =  - KO2_max * BO2 * (S /(KO2_half + S + (S*S/KI))) * (EAO2 /(KAO2_half + EAO2)) / R
+ 80 rateXSO4 =  - KSO4_max * BSO4 * (S /(KSO4_half + S + (S*S/KI))) * (EASO4 /(KASO4_half + EASO4)) / R
+ 90 rate = rateO2 + rateSO4
+ 100 dS = rate * time
+ 110 save dS
+ 120 put(rateXO2, 3)
+ 130 put(rateXSO4, 4)
+ -end
+ 
+
+ EAO2_degradation
+ -start
+  1 stoichiB = parm(1)
+  2 stoichiX = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(1) * RB
+ 40 rateX = get(3) * RX
+ 40 rateB = stoichiB * rateB
+ 50 rateX = stoichiX * rateX
+ 60 rateO2 = rateB + rateX 
+ 50 dS = rateO2 * time
+ 60 save dS
+ -end
+
+EASO4_degradation
+ -start
+  1 stoichiB = parm(1)
+  2 stoichiX = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(2) * RB
+ 40 rateX = get(4) * RX
+ 40 rateB = stoichiB * rateB
+ 50 rateX = stoichiX * rateX
+ 60 rateSO4 = rateB + rateX 
+ 50 dS = rateSO4 * time
+ 60 save dS
+ -end
+
+
+ Biomass_O2_degradation
+ -start
+  1 Y = parm(1)
+  2 K_Bd = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(1) * RB
+ 40 rateX = get(3) * RX
+ 20 B = mol("Biomass1") 
+ 30 rate = - Y  * (rateB + rateX) - k_Bd * B
+ 40 dB = rate * time
+ 50 save dB
+ -end
+ 
+ 
+ Biomass_SO4_degradation
+ -start
+  1 Y = parm(1)
+  2 K_Bd = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(2) * RB
+ 40 rateX = get(4) * RX
+ 20 B = mol("Biomass2") 
+ 30 rate = - Y  * (rateB + rateX) - k_Bd * B
+ 40 dB = rate * time
+ 50 save dB
+ -end
+ 
+
+ KINETICS 1
+ Benzene_degradation
+  -formula Benzene 1 #C6H6 -1 #O2 1
+  -parms  5.22424791e-6  2.560e-5  6.2519e-5  8.65e-4  0.86   5.22424791e-6  2.560e-5    6.2519e-5
+  #       KO2_max        KO2_half  KAO2_half  KI       R      KSO4_max       KSO4_half   KASO4_half
+  
+ Xylene_degradation
+  -formula Xylene 1 #C6H6 -1 #O2 1
+  -parms  5.22424791e-6  2.560e-5  6.2519e-5  8.65e-4  0.86   5.22424791e-6  2.560e-5    6.2519e-5
+  #       KO2_max        KO2_half  KAO2_half  KI       R      KSO4_max       KSO4_half   KASO4_half
+  
+
+ EAO2_degradation
+  -formula O2 7.5
+  -parms 7.5       7.5       0.86  0.86
+  #      stoichiB  stoichiX  RB    RX
+  
+ EASO4_degradation
+  -formula SO4 7.5
+  -parms 7.5       7.5       0.86  0.86
+  #      stoichiB  stoichiX  RB    RX
+	  
+ Biomass_O2_degradation
+   -formula Biomass1 1
+   -parms  1.77  0     0.86  0.06      
+   #       Y     K_Bd  RB    RX
+   
+  Biomass_SO4_degradation
+   -formula Biomass2 1
+   -parms  1.77  0     0.86  0.06      
+   #       Y     K_Bd  RB    RX
+   
+  -steps 6.3e6 in 700
+
+INCREMENTAL_REACTIONS
+
+SOLUTION 1
+ -units mg/l
+ Xylene 37.3
+ O(0)  20
+ C(4)   10
+ S(4)  5
+ Na     5
+ Cl		5
+ Biomass1 0.003
+ Biomass2 0.003
+ 
+  SELECTED_OUTPUT
+   -reset false
+   -file degradation.csv
+   -time true
+   -molalities Benzene Xylene O2 SO4 Biomass1 Biomass2
+
+END
+
+
+
+
+
+

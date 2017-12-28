@@ -1,0 +1,309 @@
+\documentclass[11pt,a4paper,twoside]{report} 
+\usepackage[utf8]{inputenc}
+\usepackage{geometry} 
+\usepackage[breaklinks]{hyperref}
+\usepackage{url}
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage{array} 
+\usepackage{paralist} 
+\usepackage{verbatim} 
+\usepackage{subfig} 
+\usepackage{amsmath}
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\usepackage{listings}
+\usepackage[cm]{fullpage}
+\usepackage[table]{xcolor}
+\definecolor{dkgreen}{rgb}{0,0,6,0}
+\definecolor{mauve}{rgb}{0,58,0,0,82}
+\renewcommand{\headrulewidth}{0pt} 
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\lstdefinestyle{Bash}
+{language=bash,
+basicstyle=\ttfamily,
+frame=L,
+breaklines=true,
+stringstyle=\color{mauve},
+commentstyle=\color{dkgreen},
+keywordstyle=\color{blue}
+}
+\sloppy
+\title{Carbonate Reactions}
+\author{Ivan Marin}
+\date{\today} 
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Carbonate Equilibria with Bionapl}
+For the inclusion of carbonate equilibria a few assumptions had to be made:
+\begin{itemize}
+\item The variable to be determined is the pH
+\item The input variable is the concentration of $CO_{2}$ (can also be $[Ca^{2+}]$, $[Na^{+}]$,$[SO_{4}^{2-}]$)
+\item All species are in solution
+\item There is no precipitation or dissolution
+\item All activities are equal to 1
+\end{itemize}
+
+These assumptions simplify the problem greatly, but maybe are too simplified for the simulation of all data from Borden,
+
+\section{Mass action equations}
+All units are defined as moles per litre, except the equilibrium constants, that are adimensional, The mass action equations used are:
+
+$CO_{2}$ to $H_{2}CO_{3}$:
+\begin{align}\label{co2}
+CO_{2} + H_{2}O &\leftrightarrow  H_{2}CO_{3} \\ \notag
+[H_{2}CO3]      &= k_{h}[CO2] \\ \notag
+k_{h}           &= 1,70E-03
+\end{align}
+
+$H_{2}CO_{3}$ to $HCO_{3}^{-}$:
+\begin{align}\label{hco3}
+H_{2}CO_{3} &\leftrightarrow  HCO_{3}^{-} + H^{+} \\ \notag
+k_{1}       &= \frac{[H^{+}][HCO_{3}^{-}]}{[H_{2}CO_{3}]} \\ \notag
+k_{1}       &= 4,60E-07
+\end{align}
+
+$HCO_{3}^{-}$ to $CO_{3}^{2-}$:
+\begin{align}\label{co3}
+HCO_{3}^{-} &\leftrightarrow  CO_{3}^{2-} + H^{+} \\ \notag
+k_{2}       &= \frac{[H^{+}][CO_{3}^{2-}]}{[HCO_{3}^{-}]} \\ \notag
+k_{2}       &= 4,69E-11
+\end{align}
+
+$CaCO_{3}$ to $Ca^{2+}$:
+\begin{align}\label{caco3}
+CaCO_{3} &\leftrightarrow  CO_{3}^{2-} + Ca^{2+} \\ \notag
+k_{a}    &= [Ca^{2+}][CO_{3}^{2-}] \\ \notag
+k_{a}    &= 3,2E-09
+\end{align}
+
+$CaSO_{4}$ to $Ca^{2+}$ and $SO_{4}^{2-}$:
+\begin{align}\label{caso4}
+NaSO_{4} &\leftrightarrow  SO_{4}^{2-} + Ca^{2+} \\ \notag
+k_{s}    &= [Ca^{2+}][SO_{4}^{2-}] \\ \notag
+k_{s}    &= ?
+\end{align}
+
+Water dissociation:
+\begin{align}\label{h2o}
+H_{2}O &\leftrightarrow  H^{+} + HO^{-} \\ \notag
+k_{w}  &= [H^{+}][OH^{-}] \\ \notag
+k_{w}  &= 1,0E-14
+\end{align}
+
+
+\section{Charge balance equation}
+The charge balance equation for a system in equilibrium with $CO_{2}$ is equal to 
+\begin{align}\label{chargebalance}
+2[Ca^{2+}] + [H^{+}] = 2[CO_{3}^{2-}] + [HCO_{3}^{-}] + [SO_{4}^{2-}] + [OH^{-}]
+\end{align}
+
+\subsection{\texorpdfstring{$Na^{+}$}{Na} Inclusion}
+Equation \eqref{chargebalance} can be modified to include the concentration of $Na^{+}$ from the dissociation of persulfate:
+\begin{align}\label{chargebalancena}
+2[Ca^{2+}] + [H^{+}] +2[Na^{+}]= 2[CO_{3}^{2-}] + [HCO_{3}^{-}] + 2[SO_{4}^{2-}] + [OH^{-}]
+\end{align}
+
+\section{Species to be Transported by Bionapl}
+The species that need to be transported by Bionapl are the ones that are \textit{inputs} to the geochemistry package, The species concentrations that are generated \textit{from} the geochemistry packge don't need to be transported, as they're going to be overwritten by the next iteration step, 
+
+For example, in a system where $[CO_{2}]$ and $[Ca^{2+}]$ are input parameters, only these two should be transported, All other species ($HCO_{3}^{-}, CO_{3}^{2-}$) are calculated from the equilibrium reactions and have no relation to the concentrations from the previous step or adjacent elements, 
+
+
+
+
+
+
+\chapter{Concentrations of Species in Solution}\label{speciesinsol}
+\section{Species Concentrations in function of \texorpdfstring{$CO_{2}$}{CO2}}\label{speconc}
+The approach used is to find the pH in function of the input concentration of $CO_{2}$, The equations from \eqref{co2} to \eqref{h2o} are substituted in each other, so they can be functions of the known $CO_{2}$ concentration and $[H^{+}$]:
+\begin{align}\label{hco3back}
+[HCO_{3}^{-}] = \frac{k_{1}[H_{2}CO_{3}]}{[H^{+}]}
+\end{align}
+and substituting \eqref{co2} into \eqref{hco3back} the expression for $[HCO_{3}^{-}]$ in function of $[CO_{2}]$ is:
+\begin{align}\label{hco3back2}
+[HCO_{3}^{-}] = \frac{k_{h}k_{1}[CO_{2}]}{[H^{+}]}
+\end{align}
+All other equations can be substituted in the same fashion, The equation for $[CO_{3}^{2-}]$ concentration in function of $[CO_{3}]$ concentration is 
+\begin{align}
+[CO_{3}^{2-}] = \frac{k_{2}[HCO_{3}^{-}]}{[H^{+}]} = \frac{k_{2}k_{1}k_{h}[CO_{2}]}{[H^{+}]^{2}}
+\end{align}
+where $[HCO_{3}^{-}]$ was replaced by \eqref{hco3back2}, The same approach is used for the calcite equation:
+\begin{align}
+[Ca^{2+}] = \frac{k_{a}}{[CO_{3}^{2-}]} = \frac{k_{a}[H^{+}]^{2}}{k_{2}k_{1}k_{h}[CO_{2}]}
+\end{align}
+The water dissociation can be written as 
+\begin{align}
+[OH^{-}] = \frac{k_{w}}{[H^{+}]}
+\end{align}
+
+The sulfate and sodium cases are more complicated as they're generated outside the geochemistry package, and is considered only as a input parameter,
+
+\section{Substitution in the Charge Balance Equation}
+Considering that the $Ca^{2+}$ concentration will be found from the input $CO_{2}$ concentration too, the equations from section \eqref{speconc} can be substituted in the charge balance equation \eqref{chargebalance}:
+\begin{align}\label{cbrep}
+\frac{k_{a}[H^{+}]^{2}}{k_{2}k_{1}k_{h}[CO_{2}]} + [H^{+}] = 2\frac{k_{2}k_{1}k_{h}[CO_{2}]}{[H^{+}]^{2}} + \frac{k_{h}k_{1}[CO_{2}]}{H^{+}} + 2[SO_{4}^{2-}] + \frac{k_{w}}{[H^{+}]}
+\end{align}
+
+\subsection{\texorpdfstring{$Na^{+}$}{Na} Input Concentration}
+A similar expression can be obtained for equation \eqref{chargebalancena}:
+\begin{align}\label{cbrepna}
+\frac{k_{a}[H^{+}]^{2}}{k_{2}k_{1}k_{h}[CO_{2}]} + [H^{+}] +2[Na^{+}]= 2\frac{k_{2}k_{1}k_{h}[CO_{2}]}{[H^{+}]^{2}} + \frac{k_{h}k_{1}[CO_{2}]}{H^{+}} + 2[SO_{4}^{2-}] + \frac{k_{w}}{[H^{+}]}
+\end{align}
+
+\section{Definition of the Polynomial Equation for \texorpdfstring{$[H^{+}]$}{H}}
+In \eqref{cbrepna} the concentrations of $[Na^{+}]$ is considered to be fixed and given as input, The same is valid for $[SO_{4}^{2-}]$ in both \eqref{cbrep} and \eqref{cbrepna}, Multiplying equation \eqref{cbrep} by $[H^{+}]^{2}$ and rearranging the terms so the polynomial equation is monic\footnote{A \textit{monic} polynomial equation has the coefficient for the highest order term equal to 1, The monic form is required to find the roots of the polynomial equation by the method of the companion matrix, See section \eqref{companion},}, the following systems are found,
+
+\subsection{System with only Carbonates}
+For the system with only carbonates there is no concentrations of $[Ca^{2+}]$, $[SO_{4}^{2-}]$ or $[Na^{+}]$, The equation to be solved for $H^{+}$ in function of $[CO_{2}]$ is equal to 
+\begin{align}\label{hco}
+[H^{3}] - \left(k_{1}k_{h}[CO_{2}] + k_{w} \right)[H^{+}] - 2k_{2}k_{1}k_{h}[CO_{2}] = 0
+\end{align}
+
+\subsection{System with \texorpdfstring{$[Ca^{2+}]$}{Ca}}
+The charge equation \eqref{cbrep} for $[H^{+}]$ in function of $[CO_{2}]$ is equal to 
+\begin{align}\label{hca}
+[H^{+}]^{4} + \frac{k_{1}k_{2}k_{h}[CO_{2}]}{2k_{a}}[H^{+}]^{3} - \frac{k_{1}k_{2}k_{h}[CO_{2}]}{k_{a}}[SO_{4}^{2-}][H^{+}]^{2} &- \\ \notag
+-\left(\frac{k_{1}k_{2}k_{h}[CO_{2}]}{2k_{a}}\right)\left(k_{h}k_{1}[CO_{2}] + k_{w}\right)[H^{+}] -& \frac{(k_{1}k_{2}k_{h}[CO_{2}])^{2}}{k_{a}} = 0
+\end{align}
+
+\subsection{System with \texorpdfstring{$[Ca^{2+}]$}{Ca} and \texorpdfstring{$[Na^{+}]$}{Na}}
+For the system with $[Na^{+}]$ the equation for $[H^{+}]$ is slightly changed:
+\begin{align}\label{hcana}
+[H^{+}]^{4} + \frac{k_{1}k_{2}k_{h}[CO_{2}]}{2k_{a}}[H^{+}]^{3} + \left(\frac{k_{1}k_{2}k_{h}[CO_{2}]}{2k_{a}}\left([Na^{+}] - 2[SO_{4}^{2-}]\right)\right)[H^{+}]^{2} &- \\ \notag
+-\left(\frac{k_{1}k_{2}k_{h}[CO_{2}]}{2k_{a}}\right)\left(k_{h}k_{1}[CO_{2}] + k_{w}\right)[H^{+}] -& \frac{(k_{1}k_{2}k_{h}[CO_{2}])^{2}}{k_{a}} = 0
+\end{align}
+
+\section{Solving the Polynomial equations for \texorpdfstring{$[H^{+}]$}{H}}
+The equations \eqref{hco}, \eqref{hca} and \eqref{hcana} are polynomial equations in function of $[H^{+}]$ and can be solved by graphical or numerical methods, \textit{Finding the solution} for a polynomial equation is also called finding the \textit{roots}, The roots found can be less than zero, so a physical constraint is needed to check if the root is correct for the problem, The physical constraint in this case is that the value of pH cannot be lower than zero or higher that 14, so if a root is found for the concentration of $[H^{+}]$ that gives the pH outside this interval, it must be discarded, Remembering that the pH is found in function of $[H^{+}]$ as 
+\begin{align}
+pH = -log10([H^{+}])
+\end{align}
+Two methods are implemented in bionapl-fpc: the Newton method (sometimes called Newton-Raphson method) and the companion matrix method, There are plenty of references for the Newton method, so the companion matrix method will be described,
+
+\subsection{Companion Matrix Method}\label{companion}
+Every monic polynomial
+\begin{align}
+p(x) = c_{0} + c_{1}x + c_{2}x^{2} + c_{3}x^{3} + ,,, + c_{n-1}x^{n-1} + c_{n}x^{n}
+\end{align}
+
+ has a \textit{companion matrix}, defined as
+\begin{align}
+  C(p)=
+  \begin{bmatrix}
+  0 & 0 & \dots & 0 & -c_0 \\
+  1 & 0 & \dots & 0 & -c_1 \\
+  0 & 1 & \dots & 0 & -c_2 \\
+   \vdots & \vdots & \ddots & \vdots & \vdots \\
+   0 & 0 & \dots & 1 & -c_{n-1}
+  \end{bmatrix}
+\end{align}
+As this matrix has the characteristic polynomials properties, the eigenvalues are the roots of the equation, so finding the eigenvalues of the matrix $C$ is equivalent to finding the roots of the polynomial equation $p$, 
+
+We apply this principle to the equation in function of $[H^{+}]$ to find the roots, using the eigenvalue solver from the package LAPACK, The use of the companion matrix is also the reason why the charge balance equation must be rearranged to a monic form,
+
+\section{Calculating the Concentrations of all Species}
+After the $[H^{+}]$ is found, with the initial $[CO_{2}]$ all the concentrations for all the species can be found recalculating from the mass action equations \eqref{caco3} to \eqref{co2}, It should be noted that if the concentration of a species was used as input ($[Ca^{2+}]$ or $[Na^{+}]$, for example) they \textit{cannot} be recalculated using the mass action equations,
+
+
+
+
+
+
+
+
+
+\chapter{Examples}
+The following examples were calculated using the the approach described in \eqref{speciesinsol}. The partial pressure $pCO_{2}$ is converted to $[CO_{2}]$ concentration to 
+\section{Carbonate System}
+Varying the initial concentration of $[CO_{2}]$ the concentration of the other species and the pH can be calculated, The carbonate code was validated against table \eqref{carbonatetab}:
+
+\begin{table}[h]
+\setlength{\tabcolsep}{15pt}
+\begin{center}
+\begin{tabular}{| c| c | c | c | c| c | }
+\hline
+$pCO_{2}$ atm &  pH &    $[CO_{2}]$ mol/l  & $[H_{2}CO_{3}]$ mol/l &  $[HCO_{3}^{-}]$mol/l & $[CO_{3}^{2-}]$mol/l \\
+\hline
+1,00E-08 & 7 & 3,36E-10 & 5,71E-13 & 1,42E-9 & 7,90E-13 \\
+\hline
+1,00E-07 & 6,94 & 3,36E-9 & 5,71E-12 & 5,90E-9 & 1,90E-12 \\
+\hline
+1,00E-06 & 6,81 & 3,36E-8 & 5,71E-11 & 9,16E-8 & 3,30E-11 \\
+\hline
+1,00E-05 & 6,42 & 3,36E-7 & 5,71E-10 & 3,78E-7 & 4,53E-11 \\
+\hline
+1,00E-04 & 5,92 & 3,36E-6 & 5,71E-9 &1,19E-6& 5,57E-11 \\
+\hline
+3,50E-04 & 5,65 & 1,18E-5 &2,00E-8 &2,23E-6& 5,60E-11 \\
+\hline
+1,00E-03 & 5,42&  3,36E-5& 5,71E-8 &3,78E-6 &5,61E-11 \\
+\hline
+1,00E-02 & 4,92 & 3,36E-4 &5,71E-7& 1,19E-5& 5,61E-11 \\
+\hline
+1,00E-01 & 4,42 & 3,36E-3 &5,71E-6& 3,78E-5 &5,61E-11 \\
+\hline
+1,00E+02 & 3,92 & 3,36E-2& 5,71E-5 &1,20E-4 &5,61E-11 \\
+\hline
+2,50E+00 & 3,72 & 8,40E-2& 1,43E-4 &1,89E-4& 5,61E-11 \\
+\hline
+\end{tabular}
+\caption{Parameters for carbonate system, From \url{http://en,wikipedia,org/wiki/Carbonic_acid}}
+\label{carbonatetab}
+\end{center}
+\end{table}
+
+The program carbonate.f was able to reproduce this table with both the companion matrix method and the Newton method.
+
+\section{Carbonate Equilibrium with Calcium}
+Including $[Ca^{2+}]$, the pH and the $[CO_{2}]$ concentrations are described in table \eqref{carbonateca}:
+
+\begin{table}[ht]
+\setlength{\tabcolsep}{20pt}
+\begin{center}
+\begin{tabular}{| c| c | c |}
+\hline
+$pCO_{2}$ atm at 25C & pH & $[Ca^{2}]$ mol/l \\
+\hline
+1,00E-12 & 12   & 5,19E-3 \\
+\hline
+1,00E-10 & 11,3 & 1,12E-3 \\
+\hline
+1,00E-08 & 10,7 & 2,55E-4 \\
+\hline
+1,00E-06 & 9,83 & 1,20E-4 \\
+\hline
+1,00E-04 & 8,62 & 3,16E-4 \\
+\hline
+3,50E-04 & 8,27 & 4,70E-4 \\
+\hline
+1,00E-03 & 7,96 & 6,62E-4 \\
+\hline
+1,00E-02 & 7,3  & 1,42E-3 \\
+\hline
+1,00E-01 & 6,63 & 3,05E-3 \\
+\hline
+1,00E+00 & 5,96 & 6,58E-3 \\
+\hline
+1,00E+01 & 5,3  & 1,42E-2 \\
+\hline
+\end{tabular}
+\caption{Parameters for carbonate system, From \url{http://en.wikipedia.org/wiki/Calcium_carbonate}}
+\label{carbonateca}
+\end{center}
+\end{table}
+\end{document}

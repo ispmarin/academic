@@ -1,0 +1,207 @@
+TITLE CompBIONAPL 3
+# This model degrades benzene using a dual Monod
+# equation and biomass generation. The results
+# will be compared with a similar simulation using
+# BIONAPL.
+
+SOLUTION_MASTER_SPECIES
+  Xylene   	Xylene      0   C8H10  	106.16
+  
+  Benzene   Benzene       0     C6H6  78.108
+  
+  Pseudomonas	Pseudomonas		0	22.6	22.6
+  
+  Aerogineas	Aerogineas		0	22.7	22.7
+    
+    
+SOLUTION_SPECIES
+  Xylene = Xylene
+  log_k 0
+  -gamma    0.0000    0.0000
+
+  Benzene = Benzene
+  log_k 0
+  -gamma    0.0000    0.0000
+
+  Pseudomonas = Pseudomonas
+  log_k 0
+  -gamma    0.0000    0.0000
+  
+  Aerogineas = Aerogineas
+  log_k 0
+  -gamma    0.0000    0.0000
+
+
+
+SOLUTION 1
+ -units mg/l
+ Xylene 37.3
+ Benzene 20
+ O(0)  20
+ C(4)   10
+ S(6)  5
+ Na     5
+ Cl		5
+ Pseudomonas 0.003
+ Aerogineas 0.003
+
+
+RATES
+ Benzene_degradation
+ -start
+  1 KO2_max = parm(1)
+  2 KO2_half = parm(2)
+  3 KAO2_half = parm(3)
+  4 KI = parm(4)  
+  5 R = 1 + parm(5)
+  6 KSO4_max = parm(6)
+  7 KSO4_half = parm(7)
+  8 KASO4_half = parm(8)
+ 10 S = mol("Benzene")
+ 20 BO2 = mol("Pseudomonas")
+ 30 BSO4 = mol("Aerogineas")
+ 40 EAO2 = mol("O2")
+ 50 EASO4 = mol("SO4-2")
+ 60 if S < 1e-15 then goto 110
+ 70 rateBO2 =  - KO2_max * BO2 * (S /(KO2_half + S + (S*S/KI))) * (EAO2 /(KAO2_half + EAO2)) / R
+ 80 rateBSO4 =  - KSO4_max * BSO4 * (S /(KSO4_half + S + (S*S/KI))) * (EASO4 /(KASO4_half + EASO4)) / R
+ 90 rate = rateBO2 + rateBSO4
+ 100 dS = rate * time
+ 110 save dS
+ 120 put(rateBO2, 1)
+ 130 put(rateBSO4, 2)
+ -end
+ 
+  Xylene_degradation
+ -start
+  1 KO2_max = parm(1)
+  2 KO2_half = parm(2)
+  3 KAO2_half = parm(3)
+  4 KI = parm(4)  
+  5 R = 1 + parm(5)
+  6 KSO4_max = parm(6)
+  7 KSO4_half = parm(7)
+  8 KASO4_half = parm(8)
+ 10 S = mol("Xylene")
+ 20 BO2 = mol("Pseudomonas")
+ 30 BSO4 = mol("Aerogineas")
+ 40 EAO2 = mol("O2")
+ 50 EASO4 = mol("SO4-2")
+ 60 if S < 1e-15 then goto 110
+ 70 rateXO2 =  - KO2_max * BO2 * (S /(KO2_half + S + (S*S/KI))) * (EAO2 /(KAO2_half + EAO2)) / R
+ 80 rateXSO4 =  - KSO4_max * BSO4 * (S /(KSO4_half + S + (S*S/KI))) * (EASO4 /(KASO4_half + EASO4)) / R
+ 90 rate = rateXO2 + rateXSO4
+ 95 print rate
+ 100 dS = rate * time
+ 110 save dS
+ 120 put(rateXO2, 3)
+ 130 put(rateXSO4, 4)
+ -end
+ 
+
+ EAO2_degradation
+ -start
+  1 stoichiB = parm(1)
+  2 stoichiX = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(1) * RB
+ 40 rateX = get(3) * RX
+ 50 rateB = stoichiB * rateB
+ 60 rateX = stoichiX * rateX
+ 70 rateO2 = rateB + rateX 
+ 80 dS = rateO2 * time
+ 90 save dS
+ -end
+
+EASO4_degradation
+ -start
+  1 stoichiB = parm(1)
+  2 stoichiX = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(2) * RB
+ 40 rateX = get(4) * RX
+ 50 rateB = stoichiB * rateB
+ 60 rateX = stoichiX * rateX
+ 70 rateSO4 = rateB + rateX 
+ 80 dS = rateSO4 * time
+ 90 save dS
+ -end
+
+
+ Biomass_O2_degradation
+ -start
+  1 Y = parm(1)
+  2 K_Bd = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(1) * RB
+ 40 rateX = get(3) * RX
+ 20 B = mol("Pseudomonas") 
+ 30 rate = - Y  * (rateB + rateX) - k_Bd * B
+ 40 dB = rate * time
+ 50 save dB
+ -end
+ 
+ 
+ Biomass_SO4_degradation
+ -start
+  1 Y = parm(1)
+  2 K_Bd = parm(2)
+  3 RB = 1 + parm(3)
+  4 RX = 1+ parm(4)
+ 35 rateB = get(2) * RB
+ 40 rateX = get(4) * RX
+ 20 B = mol("Aerogineas") 
+ 30 rate = - Y  * (rateB + rateX) - k_Bd * B
+ 40 dB = rate * time
+ 50 save dB
+ -end
+ 
+
+ KINETICS 1
+ Benzene_degradation
+  -formula Benzene 1 #C6H6 -1 #O2 1
+  -parms  5.22424791e-6  2.560e-5  6.2519e-5  8.65e-4  0.86   5.22424791e-6  2.560e-5    6.2519e-5
+  #       KO2_max        KO2_half  KAO2_half  KI       R      KSO4_max       KSO4_half   KASO4_half
+  
+ Xylene_degradation
+  -formula Xylene 1 #C6H6 -1 #O2 1
+  -parms  5.22424791e-6  2.560e-5  6.2519e-5  8.65e-4  0.86   5.22424791e-6  2.560e-5    6.2519e-5
+  #       KO2_max        KO2_half  KAO2_half  KI       R      KSO4_max       KSO4_half   KASO4_half
+  
+
+ EAO2_degradation
+  -formula O2 7.5
+  -parms 7.5       7.5       0.86  0.86
+  #      stoichiB  stoichiX  RB    RX
+  
+ EASO4_degradation
+  -formula SO4-2 1
+  -parms 1         1         0.86  0.86
+  #      stoichiB  stoichiX  RB    RX
+	  
+ Biomass_O2_degradation
+   -formula Pseudomonas 1
+   -parms  1.77  0     0.86  0.06      
+   #       Y     K_Bd  RB    RX
+   
+  Biomass_SO4_degradation
+   -formula Aerogineas 1
+   -parms  1.77  0     0.86  0.06      
+   #       Y     K_Bd  RB    RX
+   
+  #-steps 1.0e8 in 10
+
+	#-steps 1e7 in 3 # time steps, number of steps
+
+INCREMENTAL_REACTIONS
+
+END
+
+
+
+
+
+

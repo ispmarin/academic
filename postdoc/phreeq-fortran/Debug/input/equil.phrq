@@ -1,0 +1,31 @@
+SOLUTION_MASTER_SPECIES
+S(+7)    S2O8-2     0.0 S
+S(+4)	 SO3-2		0.0	S
+
+SOLUTION_SPECIES
+ 2.0000 SO3--  + 1.500 O2  + 2.0000 H+  = S2O8--  + H2O
+         -llnl_gamma           4.0
+          log_k           70.7489
+         -delta_H    0           # Not possible to calculate enthalpy of reaction    S2O8-2
+#   Enthalpy of formation:  -0 kcal/mol
+         -analytic 0.18394E+03    0.60414E-01    0.13864E+05   -0.71804E+02    0.21628E+03
+#       -Range:  0-300
+
+SOLUTION 
+pH 7.0 charge
+temp 25.0
+ O(0)  2
+ C(4)   10
+ S(6)  5
+ Na     5
+ Cl		5
+ Ca     1
+
+EQUILIBRIUM_PHASES 1
+ 	Calcite 1
+
+SELECTED_OUTPUT
+-reset false
+-file degradation.csv
+-high_precision
+-molalities Ca+2 Cl- Na+ CO3-2 SO4-2 O2 S2O8-2

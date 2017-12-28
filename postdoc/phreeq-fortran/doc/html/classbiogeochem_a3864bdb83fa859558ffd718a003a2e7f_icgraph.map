@@ -1,0 +1,6 @@
+<map id="biogeochem::ehandler" name="biogeochem::ehandler">
+<area shape="rect" id="node3" href="$classbiogeochem.html#ad8fd793d4cfc98786926e183de153627" title="Initialization for Phreeqc." alt="" coords="411,5,573,35"/>
+<area shape="rect" id="node7" href="$classbiogeochem.html#a1bd3b9b68060375fda3f248bc9797483" title="Change the components of the solution from external changes." alt="" coords="421,58,563,105"/>
+<area shape="rect" id="node10" href="$classbiogeochem.html#aed9b27100fe15ac5cfdefac055284e62" title="Run Phreeqc with id." alt="" coords="203,116,363,145"/>
+<area shape="rect" id="node5" href="$phreeqc-fortran_8f90.html#a9714b87ecacd59cf20430f2398694c5f" title="phreeqcfortran" alt="" coords="623,67,727,96"/>
+</map>

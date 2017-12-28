@@ -1,0 +1,115 @@
+TITLE Benzene-O2
+# This model degrades benzene using a dual Monod
+# equation and biomass generation.
+
+SOLUTION_MASTER_SPECIES
+  Benzene   Benzene             0     C6H6  78.108
+ # Biomass	  Biomass		    0	    22.6	22.6
+
+SOLUTION_SPECIES
+  Benzene = Benzene
+  log_k 0
+  -gamma    0.0000    0.0000
+
+ # Biomass = Biomass
+ # log_k 0
+ # -gamma    0.0000    0.0000
+
+
+
+SOLUTION 1
+# -units mol/kgw
+# Benzene 0.0001024
+# O(0) 0.000063
+# Biomass 0.00003125
+ -units g/kgw
+ Benzene 0.005931
+ O(0) O2  0.0025
+# Biomass 0.0000025 #better fit
+
+RATES
+ Benzene_degradation
+ -start
+  10 kB_max   = parm(1) * 1/86400
+  20 kB_half  = parm(2)
+  30 k02_half = parm(3)
+  40 R        = 1 + parm(4)
+ 100 Benz     = tot("Benzene") * 78.108
+ 150 EAO2     = tot("O(0)")  * 16
+ 200 B        = kin("Biomass") 
+ 250 if Benz < 1e-25 then goto 600
+ 300 if EAO2 < 1e-25 then goto 600
+ 400 rate =  - kB_max * B * (Benz /(kB_half + Benz)) * (EAO2 /(kO2_half + EAO2)) / R
+ 500 dS = rate * time
+ 600 save dS
+ 700 put(rate, 1)
+ -end
+
+  EA_degradation
+ -start
+  10 kB_max   = parm(1) * 1/86400
+  20 kB_half  = parm(2)
+  30 KO2_half = parm(3)
+  40 stoichi  = parm(4)
+  50 R        = 1 + parm(5)
+ 100 Benz     = tot("Benzene") * 78.108
+ 150 EAO2     = tot("O(0)") * 16
+ 200 B        = kin("Biomass") 
+ 300 if Benz < 1e-25 then goto 600
+ 350 if EAO2 < 1e-25 then goto 600
+ 400 rate_S = get(1)
+ 430 rate = rate_S * stoichi
+ #400 rate =  - stoichi * kB_max * B * (Benz /(kB_half + Benz)) * (EAO2 /(kO2_half + EAO2)) / R
+ 500 dS = rate * time
+ 600 save dS
+ 700 put(rate, 2)
+ -end
+
+ Biomass
+ -start
+  1 Y = parm(1); 2 R = 1 + parm(2); 3 k_Bd = parm(3)
+ 10 rate_S = get(1)
+ 20 B = kin("Biomass") * 32.6
+ 30 rate = -Y * rate_S - k_Bd * B
+ 40 dB = rate * time
+ 50 save -dB
+ -end
+
+
+KINETICS 1
+ Benzene_degradation
+  -formula Benzene  1.28e-4
+  #        KB_max    KB_half   KO_half    R
+  -parms   1.56      0.001     0.001      0.00
+
+ EA_degradation
+  -formula O 6.25e-4
+  #        KB_max    KB_half   KO_half    stoichi  R
+  -parms   1.56      0.001     0.001      3.072     0.00
+ 
+ Biomass
+  -formula C 0 
+  #        Y         R       K_Bd
+  -parms   1.24      0    0.00000                             
+
+
+
+#  -steps 6.3e3 in 10 
+#  -steps 259200 in 50
+#  -steps 864000 in 700
+INCREMENTAL_REACTIONS
+
+
+#SELECTED_OUTPUT
+#   -file benzene-bionapl.csv
+#   -reset false
+#   -time
+#   -molalities Benzene O2 Biomass
+
+END
+
+
+
+
+
+

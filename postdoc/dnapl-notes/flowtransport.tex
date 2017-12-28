@@ -1,0 +1,317 @@
+\documentclass[11pt,twoside]{report} 
+\usepackage[utf8]{inputenc}
+
+\usepackage{geometry} 
+\geometry{a4paper}
+\usepackage{url}
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage{array} 
+\usepackage{paralist} 
+\usepackage{verbatim} 
+\usepackage{subfig} 
+\usepackage{amsmath}
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\renewcommand{\headrulewidth}{0pt} 
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+\usepackage{fullpage}
+\usepackage[active]{srcltx}
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\usepackage[nottoc,notlof,notlot]{tocbibind} 
+\usepackage[titles,subfigure]{tocloft} 
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} 
+
+
+
+\title{Fluid Flow and Transport}
+\author{Ivan Marin}
+\date{\today} 
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+
+%=================================================================================================
+\chapter{Fluid Flow}
+\subsection{Multiphase Fluid Flow}
+
+It is assumed that Darcy's law holds for a multiphase system, with a specific discharge for each component, and a coupling between the flow equations done by the relative permeability, that is in turn based on the relative saturations. For example, for a 2 component flow, 
+
+\begin{align}
+   q_{w} = \frac{K_{wr}K \rho_{w}g}{\mu_{w}} \vec{\nabla}h \\ 
+   q_{NAPL} = \frac{K_{wr}K \rho_{NAPL}g}{\mu_{NAPL}} \vec{\nabla}h
+\end{align}
+
+On a more general basis, Darcy's law for a multiphase flow with variable density is equal to
+
+\begin{align}
+   q_{iCh} = -\frac{k_{Ch}K_{i}}{\mu_{Ch}}\left(\partial P_{i} + \delta_{i3}\rho_{i}g\right)
+\end{align}
+with $K_{i}$ being the relative permeability.
+
+\subsection{Single Phase Fluid Flow: The Freshwater Equivalent Head}
+The freshwater equivalent head was developed by Frind \cite{frind1982} to deal with problems when the solute/contaminant changes the density of the groundwater flow, like saline intrusion and brine dissolution. Also, the transient state for these systems can be quite long. 
+
+For a system with different densities, a equivalent (or reference) hydraulic head with respect to fresh water is defined as
+
+\begin{align}\label{freshwaterhead}
+   \psi = \frac{p}{\rho_{0}g} + z
+\end{align}
+for $\rho_{0}$ is the reference density of fresh water. The Darcy's equation for variable density reads
+
+\begin{align}\label{darcyvardensity}
+   q_{i} = -\frac{k_{ij}}{\mu}\left(\frac{\partial p}{\partial x_{j}} + \rho g n_{j} \right)
+\end{align}
+for
+\begin{itemize}
+   \item $k_{ij}$ is the permeability tensor
+   \item $\mu$ is the dynamic viscosity
+   \item $\rho$ is the fluid density, dependent of position
+   \item $n_{j}$ is a delta that is $1$ in the vertical and zero if horizontal.
+\end{itemize}
+
+Replacing equation \eqref{freshwaterhead} in equation \eqref{darcyvardensity}, Darcy's law reads
+
+\begin{align}
+   p = \rho_{0}g\left( \psi - z \right)\\
+   q_{i} = -\frac{k_{ij}}{\mu}\left(\frac{\partial\rho_{0}g\left( \psi - z \right) }{\partial x_{j}} + \rho g n_{j} \right) \\
+   q_{i} = -\frac{k_{ij} \rho_{0}g}{\mu} \left(\frac{\partial \psi}{\partial x_{j}} + \frac{\rho - \rho_{0}}{\rho_{0}}n_{j} \right) \\
+   q_{i} = -K_{ij}\left(\frac{\partial \psi}{\partial x_{j}} + \rho_{r}n_{j}\right)
+\end{align}
+with
+a hydraulic conductivity independent of the variations of the fluid properties,
+\begin{align}
+   K_{ij} = \frac{k_{ij} \rho_{0}g}{\mu}
+\end{align}
+and an equivalent density, $\rho_{r}$, equal to 
+
+\begin{align}
+  \rho_{r} =  \frac{\rho - \rho_{0}}{\rho}
+\end{align}
+
+Considering that the concentration of the solute is sufficiently small, a relation between density and concentration can be established:
+
+\begin{align}\label{rhogamma}
+   \rho = \rho_{0}(1 + \gamma c)
+\end{align}
+where
+\begin{align}
+   \gamma = \frac{\rho_{max}}{\rho_{0}} - 1
+\end{align}
+and again where $\rho_{0}$ is the maximum density of the fluid. This way the equivalent density is equal to 
+
+\begin{align}\label{relarhogamma}
+   \rho_{r} = \gamma c
+\end{align}
+
+Using \eqref{rhogamma} and \eqref{relarhogamma}, Darcy's law for a single phase flow with varying density is equal to
+
+\begin{align}
+   q_{i} = -K_{ij}\left(\frac{\partial \psi}{\partial x_{j}} + \gamma c n_{j} \right)
+\end{align}
+
+So now the Darcy's law for varying density is written in function of the concentration, that Frind 
+\cite{frind1982} states that this solution is much more stable numerically. This is caused by the large static pressure values and the small variations in pressure, while concentration varies from 0 to 1. 
+
+When the flow has several solutes but only one phase the equivalent density is written as
+
+\begin{align}
+   \rho_{r} = \frac{1}{\rho_{0}}\sum_{k=1}^{N}c_{k} - \sum_{k=1}^{N}\frac{c_{k}}{\rho_{k}}
+\end{align}
+
+\subsection{Continuity Equation}
+The continuity equation for the equivalent freshwater head is written as
+
+\begin{align}
+   \frac{\partial}{\partial x_{i}}\left[ K_{ij}\left(\frac{\partial \psi}{\partial x_{j}} + \gamma c n_{j} \right)\right] = S_{s}\frac{\partial \psi}{\partial t}
+\end{align}
+where $S_{s}$ is the specific storage [1/L], equal to 
+
+\begin{align}
+   S_{s} = \rho_{0}g(\alpha + \theta \beta)
+\end{align}
+and
+\begin{itemize}
+   \item $\beta$ is the compressibility of the fluid [$LT^{2}/M$]
+   \item $\theta$ is the porosity [-]
+   \item $\alpha$ is the compressibility of the porous medium [$LT^{2}/M$]
+\end{itemize}
+
+The continuity equation for a single phase, non-saturated flow, with sources or sinks, and several solutes, is equal to
+
+\begin{align}
+      \frac{\partial}{\partial x_{i}}\left[ K_{ij}K_{wr}\left(\frac{\partial \psi}{\partial x_{j}} + \gamma c n_{j} \right)\right] - \sum_{k=1}^{N}Q_{k}(x_{1},x_{2},x_{3},t) = S_{s}S_{w}\frac{\partial \psi}{\partial t} + \theta\frac{\partial S_{w}}{\partial t}
+\end{align}
+
+with the same parameters as before, and $S_{w}(t)$ is the water saturation, and $K_{wr}$ is the relative permeability, given by
+\begin{align}
+   K_{wr} = \left(\frac{S_{w} - S_{wr}}{1-S_{wr}}\right)^{4}
+\end{align}
+and $S_{wr}$ is the irreducible water saturation.
+
+\section{Transport}
+
+\subsection{Total Flux of an Extensive Quantity}
+\textit{Flux} is defined as a quantity that passes through an unit area per unit time, in the direction normal to the unit area.
+
+The total flux of a extensive quantity is given by
+\begin{align}
+   \vec{J^{tE}} = e\vec{V^{E}} \\
+   \vec{J^{tE\gamma}} = e^{\gamma}\vec{V^{E\gamma}}
+\end{align}
+with
+\begin{align}
+   \vec{J^{tE}} = \sum_{\gamma} \vec{J^{tE\gamma}} \sum_{\gamma} e^{\gamma}\vec{V^{E\gamma}}
+\end{align}
+where
+\begin{itemize}
+   \item e is the quantity of the extensive quantity (\textit{grandeza}) E per unit volume.
+\end{itemize}
+
+The velocity of one component, in the reference frame of the particle, is defined as
+\begin{align}
+   \vec{V^{E\gamma}} = \frac{\partial \vec{x^{\epsilon \gamma}}}{\partial t}
+\end{align}
+with $\epsilon$ being the material coordinates (Lagrangian coordinates). The \textit{mass-weighted velocity} is an average velocity in a fixed coordinate reference frame, and it's an average with respect of the masses of the components. If there is only one component, the particle velocity is equal to the average velocity. The average velocity is given in a fixed point (Eulerian description) by
+\begin{align}
+   \vec{V} = \sum_{\gamma}c_{\gamma}\vec{V_{\gamma}}
+\end{align}
+where, as noted before, $\vec{V_{\gamma}}$ is the Lagrangian speed of each particle of component $\gamma$. $\vec{V}$ should be understood as an averaged speed by each component's masses. 
+
+Subtracting the particle velocity of the extensive quantity from the average velocity, \textit{diffusion} with respect of the average velocity is defined:
+
+\begin{align}\label{dif_advec}
+   e\vec{V^{E}} = e\vec{V} + e\left(\vec{V^{e}} - \vec{V} \right)
+\end{align}
+The \textit{diffusive flux} with respect to the \textit{advective flux velocity} is equal to 
+\begin{align}
+   \vec{j^{E}} = e\left(V^{e} - \vec{V} \right)
+\end{align}
+By component, the diffusive flux is equal to 
+\begin{align}
+   \vec{j^{E\gamma}} =  \sum_{\gamma}^{N}e\left(\vec{V^{e}} - \vec{V} \right)
+\end{align}
+with the conservation equations:
+
+\begin{align}
+   \sum_{\gamma}^{N}\vec{j^{E\gamma}} =  \sum_{\gamma}^{N} \sum_{\gamma}^{N} = \sum_{\gamma}^{N}(\vec{V} - \vec{V}) = 0
+\end{align}
+
+
+
+\subsection{Advective Flux}
+\textit{Advective Transport} describes the mass amount that crosses an unit area per unit time, in the porous medium, in the direction normal to the unit area. Defined as
+
+\begin{align}
+   \vec{J_{adv}} = S_{\gamma} \vec{v} c^{\gamma}
+\end{align}
+the same expression as eq. \eqref{dif_advec}, as expected. The only difference is the saturation:
+\begin{itemize}
+   \item $S_{\gamma}$ saturation
+   \item $\vec{v}$ average medium velocity
+   \item $c^{\gamma}$ component concentration
+\end{itemize}
+with the average medium velocity, $\vec{v}$, being defined as
+
+\begin{align}
+   \vec{v} = \frac{\vec{q}}{\theta}
+\end{align}
+
+where $\vec{q}$ is the specific discharge vector.
+
+\subsection{Fick's Law -  Diffusion}\label{fick}
+Fick's Law in microscopic for is equal to 
+\begin{align}
+   \vec{j^{\gamma}} = c^{\gamma}\left(\vec{V} - \vec{V^{\gamma}}\right) = -\rho D^{\gamma \delta}\vec{\nabla}w^{\gamma}
+\end{align}
+where the quantities are defined as 
+\begin{itemize}
+   \item $w^{\gamma} = \rho^{\gamma}/\rho$, mass fraction of component $\gamma$
+   \item $\rho^{\gamma} = m^{\gamma}/V$, density of component $\gamma$
+   \item $D^{\gamma \delta}$ diffusion coefficient, independent of concentration but dependent of temperature and pressure
+\end{itemize}
+If the fluid is homogeneous, Fick's Law is equal to
+
+\begin{align}
+   \vec{j^{\gamma}} = -D^{\gamma}\vec{\nabla}c^{\gamma}
+\end{align}
+where $c^{\gamma}$ is the concentration of the component $\gamma$. The negative sign, as in the Darcy's Law, indicates that the flow of the component goes from the higher to lower concentration. 
+
+\subsubsection{Macroscopic Fick's Law}
+The macroscopic version for Fick's Law has the same form of the microscopic one, but a averaging process was done on all quantities. The diffusion equation is equal to 
+\begin{align}
+\vec{J^{\gamma}} = - D^{'\gamma}(\theta)\vec{\nabla}c^{\gamma} = -D_{ij}^{'\gamma}(\theta)\partial_{j}c^{\gamma}
+\end{align}
+$D^{'\gamma}(\theta)$ or $D^{'\gamma}(\phi)$ is the second order diffusion tensor in porous media, proportional to either porosity ($\phi$) or saturation ($\theta$). It can be decomposed as
+
+\begin{align}
+   D^{'\gamma}(\theta) = D^{\gamma}T(\theta)
+\end{align}
+where $D^{\gamma}$ is the diffusion scalar and $T(\theta)$ is the second order tensor for tortuosity, the property of a curve being sinuous. The tortuosity tensor is a geometric coefficient, that accounts for the effects of the porous surface in diffusion. 
+
+For varying density the macroscopic Fick's Law is
+\begin{align}
+   \vec{J^{\gamma}} = -\rho D_{ij}^{'\gamma}(\theta) \vec{\nabla}\frac{\rho^{\gamma}}{\rho}
+\end{align}
+
+\section{Hydrodynamic Dispersion}
+Experiments of the spread of a solute in a fluid in motion show that instead of a sharp interface between the region with and without the solute, there is a region with a concentration gradient, $1 \leq c \leq 0$, and that region grows with time. One interesting characteristic is that the solute spreads even in the direction \textit{perpendicular} to the fluid motion direction.
+
+Hydrodynamic dispersion is composed by a mechanical component, called \textit{mechanical dispersion}, that is caused by microscopic velocities variations both in magnitude and direction, caused in turn by the irregular pore structure and the velocity profiles between pores. It is also composed by diffusion, as explained in section \eqref{fick}. The mechanical dispersion component is not present when the fluid is at rest, but diffusion always contribute for the spread of the solute, even with zero fluid velocity. Diffusion is also responsible for the crossing of solute streamlines, what is impossible with only dispersion caused by velocity. 
+
+\subsection{Dispersive Flux}
+The \textit{dispersive flux} is a macroscopic quantity that quantifies the mechanical dispersion and molecular diffusion. It can be modeled with a Fickian-type law:
+
+\begin{align}
+   \vec{J^{*}} = -D^{*} \vec{\nabla}c
+\end{align}
+$D^{*}$ is the coefficient of hydrodynamic dispersion for a saturated multiphase flow, with different densities. There are several ways to define this coefficient:
+
+\begin{align}
+   D^{*}_{ij} = a_{ijkl}\frac{V_{k}V_{l}}{V}f(Re)
+\end{align}
+$a_{ijkl}$ is a tensor that gives the relations of the interfaces between solid-liquid and others. It's a positive definite tensor, with 36 components. In an isotropic porous media, $a_{ijkl}$ has only two components, $a_{L}$ and $a_{T}$, where $L$ stands for longitudinal and $T$ for transversal component. The magnitude of $a_{L}$ is the same of the size of the pores, and $a_{T}$ is 8 to 24 times smaller. The coefficient of hydrodynamic dispersion is then equal to 
+
+\begin{align}
+   D^{*}_{ij} = \left[a_{T}\delta_{ij} + (a_{L} - a_{T})\frac{V_{i}V_{j}}{V^{2}} \right]V
+\end{align}
+
+In this case, the tensor $D^{*}$ has principal components. For flow in the $x$ direction and the other components with zero velocity, the hydrodynamic tensor is equal to 
+\begin{align}
+D^{*} =    
+\begin{pmatrix}
+   a_{L} &   0   &    0\\
+   0     & a_{T} &    0\\
+   0     &   0   &   a_{T}\\
+\end{pmatrix}
+V
+\end{align}
+
+\subsection{Total Flux}
+The total flux of a solute with concentration $c$ and velocity $\vec{V}$, hydrodynamic dispersion coefficient $D^{*}$, molecular diffusion coefficient $D^{'}$ and $D = D^{*} + D^{'}$ is equal to 
+
+\begin{align}
+   \vec{J_{t}} = c\vec{V} - D \vec{\nabla}c
+\end{align}
+
+for a single phase flow. For multiphase, multi-component flow,
+
+\begin{align}
+   \vec{J_{t}^{\gamma}} = c\vec{V^{f}} - D^{\gamma} \vec{\nabla}c^{f}
+\end{align}
+
+where $f$ denotes different phases. 
+
+\bibliographystyle{plain}
+\bibliography{bibliografia/bibliografia}
+
+\end{document}

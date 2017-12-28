@@ -1,0 +1,92 @@
+TITLE CompBIONAPL 2
+# This model degrades xylene using a Monod
+# equation and biomass generation. The results
+# will be compared with a similar simulation using
+# BIONAPL.
+
+SOLUTION_MASTER_SPECIES
+  Xylene   	Xylene      0   C8H10  	106.16
+  Biomass	Biomass		0	22.6	22.6
+  Benzene   Benzene       0     C6H6  78.108
+
+SOLUTION_SPECIES
+  Xylene = Xylene
+  log_k 0
+  -gamma    0.0000    0.0000
+  
+  Biomass = Biomass
+  log_k 0
+  -gamma    0.0000    0.0000
+
+  Benzene = Benzene
+  log_k 0
+  -gamma    0.0000    0.0000
+    
+RATES
+ Xylene_degradation
+ -start
+  1 K_max = parm(1)
+  2 K_half = parm(2)
+  3 KI = parm(3)  
+  4 R = 1 + parm(4)
+  5 Y = parm(5)
+ 10 S = mol("Xylene")
+ 20 if S < 1e-15 then goto 60
+ 30 B = mol("Biomass")
+ 40 rate =  - K_max * B * (S /(K_half + S + (S*S/KI))) / R
+ #40 rate =  -  K_max * (B/Y) * (S / (K_half + S )) / R
+ 50 dS = rate * time
+ 60 save dS
+ 70 put(rate, 1)
+ -end
+
+ Biomass
+ -start
+  1 Y = parm(1)
+  2 R = 1 + parm(2)
+  3 k_Bd = parm(3)
+ 10 rate = get(1) * R
+ 20 B = mol("Biomass")
+ 30 rate = - Y * rate - k_Bd * B
+ 40 dB = rate * time
+ 50 save dB
+  -end
+
+
+ KINETICS 1
+ Xylene_degradation
+  -formula Xylene 1 
+  -m0 0
+  -parms 1.017e-5  7.45e-6  8.65e-4  0.86  2.44 # K_max (s-1), K_half(mol/L), KI(mol/L), R, Y
+  
+ Biomass
+   -formula Biomass 1
+   #-m0 1.33e-7
+   -parms  2.44  0.86  0         # Y, R, K_Bd
+
+  #-steps 6.3e5 in 700
+  -steps 7.3e4 in 20
+  #-steps 0.0001 in 50 # time steps, number of steps
+INCREMENTAL_REACTIONS
+
+SOLUTION 1
+ -units mg/l
+ Xylene 37.3
+ O(0)  5
+ C(4)   10
+ Na     5
+ Cl		5
+ Biomass 0.003
+
+
+ 
+END
+
+
+
+
+
+
+
+
+
